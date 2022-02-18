@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ImageBackground } from 'react-native';
 import { Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useForm, Controller } from 'react-hook-form';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import {
+	KeyboardAvoidingView,
+	ScrollView,
+	Box,
 	Center,
 	Container,
 	Heading,
@@ -14,26 +18,51 @@ import {
 	VStack,
 	HStack,
 	Icon,
-	KeyboardAvoidingView,
-	Factory,
-	ScrollView,
-	Box,
+	useToast,
 } from 'native-base';
+import axios from 'axios';
 
 const RegisterScreen = ({ navigation }) => {
-	const BackgroundImage = Factory(ImageBackground);
+	const [show, setShow] = useState(false);
+	const toast = useToast();
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	const onSubmit = (data) => {
+		axios
+			.post('http://localhost:3333/api/1.0.0/user', data)
+			.then(function (response) {
+				console.log(response);
+			})
+			.catch(function (error) {
+				let errorMessage = 'An error has occurred, please review your data and try again.';
+				if (error.response.data.includes('email'))
+					errorMessage = 'Please enter a valid email address';
+
+				toast.show({
+					placement: 'top',
+					title: 'Error',
+					status: 'error',
+					description: errorMessage,
+				});
+			});
+	};
 	return (
-		<KeyboardAvoidingView flex={1} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<KeyboardAvoidingView
+			flex={1}
+			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			bg='darkBlue.900'>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<BackgroundImage
+				<ImageBackground
 					resizeMode='cover'
 					source={require('../assets/background.png')}
-					w='100%'
-					flex={1}
-					bg='darkBlue.900'>
+					style={{ flex: 1, width: '100%' }}>
 					<Center flex={1}>
-						<Box maxWidth={375} alignItems='center'>
-							<Container w='100%' safeArea my={3}>
+						<Box w='100%' maxWidth={375} alignItems='center'>
+							<Container safeArea my={3}>
 								<ScrollView>
 									<Icon
 										as={MaterialCommunityIcons}
@@ -46,36 +75,147 @@ const RegisterScreen = ({ navigation }) => {
 										Register to continue!
 									</Text>
 									<VStack space={4} mt={4} alignItems='center' w='100%'>
-										<FormControl isRequired isInvalid>
+										<FormControl isRequired isInvalid={'first_name' in errors}>
 											<FormControl.Label>First Name</FormControl.Label>
-											<Input placeholder='Enter first name' />
+											<Controller
+												control={control}
+												render={({
+													field: { onChange, onBlur, value },
+												}) => (
+													<Input
+														placeholder='Enter first name'
+														onChangeText={onChange}
+														onBlur={onBlur}
+														value={value}
+													/>
+												)}
+												name='first_name'
+												rules={{
+													required: 'Please enter your first name',
+													pattern: {
+														value: /^[a-zA-Z]+$/,
+														message: 'Please enter a valid first name',
+													},
+												}}
+												defaultValue=''
+											/>
 											<FormControl.ErrorMessage>
-												Please enter your first name
+												{errors.first_name?.message}
 											</FormControl.ErrorMessage>
 										</FormControl>
-										<FormControl isRequired isInvalid>
+										<FormControl isRequired isInvalid={'last_name' in errors}>
 											<FormControl.Label>Last Name</FormControl.Label>
-											<Input placeholder='Enter last name' />
+											<Controller
+												control={control}
+												render={({
+													field: { onChange, onBlur, value },
+												}) => (
+													<Input
+														placeholder='Enter last name'
+														onChangeText={onChange}
+														onBlur={onBlur}
+														value={value}
+													/>
+												)}
+												name='last_name'
+												rules={{
+													required: 'Please enter your last name',
+													pattern: {
+														value: /^[a-zA-Z]+$/,
+														message: 'Please enter a valid last name',
+													},
+												}}
+												defaultValue=''
+											/>
 											<FormControl.ErrorMessage>
-												Please enter your last name
+												{errors.last_name?.message}
 											</FormControl.ErrorMessage>
 										</FormControl>
-										<FormControl isRequired isInvalid>
+										<FormControl
+											isRequired
+											isInvalid
+											isInvalid={'email' in errors}>
 											<FormControl.Label>Email Address</FormControl.Label>
-											<Input placeholder='Enter email address' />
+											<Controller
+												control={control}
+												render={({
+													field: { onChange, onBlur, value },
+												}) => (
+													<Input
+														placeholder='Enter email address'
+														onChangeText={onChange}
+														onBlur={onBlur}
+														value={value}
+													/>
+												)}
+												name='email'
+												rules={{
+													required: 'Please enter your email',
+													pattern: {
+														value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+														message: 'Please enter a valid email',
+													},
+												}}
+												defaultValue=''
+											/>
 											<FormControl.ErrorMessage>
-												Please enter an email address
+												{errors.email?.message}
 											</FormControl.ErrorMessage>
 										</FormControl>
-										<FormControl isRequired isInvalid>
+										<FormControl
+											isRequired
+											isInvalid
+											isInvalid={'password' in errors}>
 											<FormControl.Label>Password</FormControl.Label>
-											<Input placeholder='Enter password' />
+											<Controller
+												control={control}
+												render={({
+													field: { onChange, onBlur, value },
+												}) => (
+													<Input
+														placeholder='Enter password'
+														onChangeText={onChange}
+														onBlur={onBlur}
+														value={value}
+														type={show ? 'text' : 'password'}
+														InputRightElement={
+															<Icon
+																as={
+																	<MaterialIcons
+																		name={
+																			show
+																				? 'visibility'
+																				: 'visibility-off'
+																		}
+																	/>
+																}
+																size={5}
+																mr={2}
+																color='muted.400'
+																onPress={() => setShow(!show)}
+															/>
+														}
+													/>
+												)}
+												name='password'
+												rules={{
+													required: 'Please enter a password',
+													minLength: {
+														value: 5,
+														message:
+															'Password must be at least 5 characters long',
+													},
+												}}
+												defaultValue=''
+											/>
 											<FormControl.ErrorMessage>
-												Please enter a password
+												{errors.password?.message}
 											</FormControl.ErrorMessage>
 										</FormControl>
 									</VStack>
-									<Button mt='4'>Register</Button>
+									<Button mt='4' onPress={handleSubmit(onSubmit)}>
+										Register
+									</Button>
 									<HStack mt='6' justifyContent='center'>
 										<Text fontSize='sm' color='white'>
 											Already have an account.{' '}
@@ -97,7 +237,7 @@ const RegisterScreen = ({ navigation }) => {
 							</Container>
 						</Box>
 					</Center>
-				</BackgroundImage>
+				</ImageBackground>
 			</TouchableWithoutFeedback>
 		</KeyboardAvoidingView>
 	);
