@@ -1,2 +1,3 @@
 import LoggedOutNavigation from './LoggedOutNavigation';
-export { LoggedOutNavigation };
+import LoggedInNavigation from './LoggedInNavigation';
+export { LoggedOutNavigation, LoggedInNavigation };

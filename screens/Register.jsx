@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ImageBackground } from 'react-native';
 import { Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
@@ -20,11 +20,13 @@ import {
 	Icon,
 	useToast,
 } from 'native-base';
-import axios from 'axios';
+import { AuthContext } from '../constants/index';
 
 const RegisterScreen = ({ navigation }) => {
 	const [show, setShow] = useState(false);
 	const toast = useToast();
+
+	const { signUp } = useContext(AuthContext);
 	const {
 		control,
 		handleSubmit,
@@ -32,23 +34,20 @@ const RegisterScreen = ({ navigation }) => {
 	} = useForm();
 
 	const onSubmit = (data) => {
-		axios
-			.post('http://localhost:3333/api/1.0.0/user', data)
-			.then(function (response) {
-				console.log(response);
-			})
-			.catch(function (error) {
-				let errorMessage = 'An error has occurred, please review your data and try again.';
-				if (error.response.data.includes('email'))
-					errorMessage = 'Please enter a valid email address';
-
+		signUp(data).then((response) => {
+			console.log(response.data);
+			if (response.status != 200) {
+				const errorMessage = response.data.includes('email')
+					? 'Account already exists'
+					: 'An error has occurred, please review your data and try again.';
 				toast.show({
 					placement: 'top',
 					title: 'Error',
 					status: 'error',
 					description: errorMessage,
 				});
-			});
+			}
+		});
 	};
 	return (
 		<KeyboardAvoidingView
@@ -59,7 +58,7 @@ const RegisterScreen = ({ navigation }) => {
 				<ImageBackground
 					resizeMode='cover'
 					source={require('../assets/background.png')}
-					style={{ flex: 1, width: '100%' }}>
+					style={{ flex: 1 }}>
 					<Center flex={1}>
 						<Box w='100%' maxWidth={375} alignItems='center'>
 							<Container safeArea my={3}>
@@ -201,9 +200,9 @@ const RegisterScreen = ({ navigation }) => {
 												rules={{
 													required: 'Please enter a password',
 													minLength: {
-														value: 5,
+														value: 6,
 														message:
-															'Password must be at least 5 characters long',
+															'Password must be at greater than 5 characters long',
 													},
 												}}
 												defaultValue=''
