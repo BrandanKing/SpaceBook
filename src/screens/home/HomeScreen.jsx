@@ -1,8 +1,16 @@
 import React from 'react';
-import { Text } from 'react-native';
-
+import { Button } from 'react-native';
+import { useAuth } from 'hooks/useAuth';
 const HomeScreen = ({ navigation }) => {
-	return <Text>Home</Text>;
+	const { logout, isAuthLoading } = useAuth();
+	return (
+		<Button
+			title='Logout'
+			onPress={() => {
+				logout();
+			}}
+		/>
+	);
 };
 
 export default HomeScreen;
