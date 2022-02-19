@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Text } from 'native-base';
+import React from 'react';
+import { Text } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
 	return <Text>Home</Text>;

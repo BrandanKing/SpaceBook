@@ -27,7 +27,6 @@ const themeConfig = {
 	colors: {},
 	config: {
 		useSystemColorMode: true,
-		//initialColorMode: 'dark',
 	},
 	components: {
 		Container: {
