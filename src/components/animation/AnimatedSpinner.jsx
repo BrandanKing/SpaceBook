@@ -3,7 +3,7 @@ import { Center, Spinner } from 'native-base';
 
 const AnimatedSpinner = () => {
 	return (
-		<Center bg='darkBlue.900' flex={1}>
+		<Center bg='dark.50' flex={1}>
 			<Spinner size='lg' color='white' />
 		</Center>
 	);

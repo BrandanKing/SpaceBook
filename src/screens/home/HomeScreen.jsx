@@ -2,12 +2,12 @@ import React from 'react';
 import { Button } from 'react-native';
 import { useAuth } from 'hooks/useAuth';
 const HomeScreen = ({ navigation }) => {
-	const { logout, isAuthLoading } = useAuth();
+	const { user, logout, isAuthLoading } = useAuth();
 	return (
 		<Button
 			title='Logout'
 			onPress={() => {
-				logout();
+				navigation.navigate('Search');
 			}}
 		/>
 	);

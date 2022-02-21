@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import Routing from 'components/core/Routing';
 import { AuthProvider } from 'hooks/useAuth';
 import Fonts from 'components/core/Fonts';
@@ -11,6 +12,7 @@ const App = () => {
 		<Fonts>
 			<NativeBaseProvider theme={Theme}>
 				<AuthProvider>
+					<StatusBar style='dark' />
 					<Routing />
 				</AuthProvider>
 			</NativeBaseProvider>

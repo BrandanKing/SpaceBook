@@ -24,11 +24,16 @@ export async function login(data) {
 		data
 	);
 
+	const { first_name, last_name, email } = await getUserData(id, token);
+
 	// Create object to split out the user details from the response properties so we
 	// don't save the response properties to secure storage.
 	const result = {
 		user: {
 			id,
+			first_name,
+			last_name,
+			email,
 			token,
 		},
 		response: { responseType, responseMessage },
@@ -64,4 +69,22 @@ export async function logout() {
 		},
 	});
 	await AsyncStorage.removeItem('@user');
+}
+
+export async function getUserData(userID, token) {
+	const { first_name, last_name, email } = await httpService.get(
+		`http://localhost:3333/api/1.0.0/user/${userID}`,
+		{
+			headers: {
+				'X-Authorization': token,
+			},
+		}
+	);
+	const user = {
+		first_name,
+		last_name,
+		email,
+	};
+
+	return user;
 }

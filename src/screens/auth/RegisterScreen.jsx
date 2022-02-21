@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Platform, ImageBackground } from 'react-native';
 import { useAuth } from 'hooks/useAuth';
@@ -17,11 +17,13 @@ import {
 	Input,
 	Button,
 	Icon,
+	useColorMode,
 } from 'native-base';
 import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import Body from 'components/layout/Body';
 
 const RegisterScreen = ({ navigation }) => {
+	const { setColorMode } = useColorMode();
 	const [showPassword, setShowPassword] = useState(false);
 	const { register, isAuthLoading } = useAuth();
 	const { control, handleSubmit, formState } = useForm();
@@ -32,8 +34,12 @@ const RegisterScreen = ({ navigation }) => {
 		await register(data);
 	};
 
+	useEffect(() => {
+		setColorMode('dark');
+	});
+
 	return (
-		<Body>
+		<Body _dark={{ bg: 'darkBlue.900' }}>
 			<ImageBackground
 				resizeMode='cover'
 				source={require('assets/background.png')}

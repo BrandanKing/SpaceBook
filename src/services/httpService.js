@@ -1,5 +1,19 @@
 import { axiosInstance } from 'utils/axiosUtil';
 
+async function get(url, config) {
+	try {
+		//console.log("GET", url, config)
+		let response = await axiosInstance.get(url, config);
+		return checkResponse(response);
+	} catch (error) {
+		console.log('Axios error:', error);
+		return {
+			responseType: 'EXCEPTION',
+			responseMessage: String(error.message || error),
+		};
+	}
+}
+
 async function post(url, data, config = {}) {
 	try {
 		//console.log("POST", url, config)
@@ -38,7 +52,7 @@ function checkResponse(response) {
 }
 
 export default {
-	//get,
+	get,
 	post,
 	// put: axiosInstance.put,
 	// del,
