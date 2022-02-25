@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useLayoutEffect, useEffect } from 'react';
 import { ImageBackground } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
 import { ScrollView, Container, VStack, Skeleton, FormControl, Button, Input } from 'native-base';
+import { useForm, Controller } from 'react-hook-form';
+import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import Body from 'components/layout/Body';
-import ProfilePicture from 'components/core/ProfilePicture';
 import { useAuth } from 'hooks/useAuth';
-
+import { toastSuccess } from 'utils/toastUtil';
 const AccountScreen = ({ navigation }) => {
-	const { user } = useAuth();
+	const { user, updateUser, isAuthLoading } = useAuth();
 	const { control, handleSubmit, formState, reset } = useForm({
 		defaultValues: user,
 	});
+
 	const { errors, isDirty, isSubmitting } = formState;
 
+	if (isAuthLoading) return <AnimatedSpinner />;
 	const onSubmit = async (data) => {
 		let updated_data = {};
 		if (user.first_name != data.first_name) updated_data.first_name = data.first_name;
@@ -24,7 +26,15 @@ const AccountScreen = ({ navigation }) => {
 		}
 	};
 
-	// TODO Refactor Update user
+	useEffect(() => {
+		reset({ ...user });
+	}, [user]);
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			title: user.first_name + ' ' + user.last_name,
+		});
+	}, [navigation, user]);
 
 	return (
 		<Body flex={1} w='100%'>
@@ -38,17 +48,13 @@ const AccountScreen = ({ navigation }) => {
 					}}></ImageBackground>
 				<Container>
 					<VStack space={6} w='100%' alignItems='center'>
-						<ProfilePicture
-							id={user.user_id}
-							alt='Profile Picture'
-							rounded='full'
+						<Skeleton
 							borderWidth={1}
-							size='150px'
-							mt='-75px'
-							borderWidth='4'
-							_light={{ borderColor: 'white' }}
-							_dark={{ borderColor: 'dark.50' }}
-							shadow={4}
+							borderColor='coolGray.200'
+							endColor='warmGray.50'
+							size='20'
+							rounded='full'
+							mt='-40px'
 						/>
 					</VStack>
 					<VStack space={4} mt={4} alignItems='center' w='100%'>

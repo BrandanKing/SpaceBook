@@ -25,39 +25,41 @@ function useProvideAuth() {
 
 	async function login(data) {
 		setIsAuthLoading(true);
-		try {
-			const { user } = await authService.login(data);
+		const { user, response } = await authService.login(data);
 
-			setUser(user);
-			setIsAuthLoading(false);
-			setIsAuthenticated(true);
+		if (response.responseType !== 'SUCCESS') return handleError(response.responseMessage);
 
-			return true;
-		} catch (error) {
-			return handleError(error);
-		}
+		setUser(user);
+		setIsAuthLoading(false);
+		setIsAuthenticated(true);
+
+		return true;
 	}
 
 	async function register(data) {
 		setIsAuthLoading(true);
-		try {
-			await authService.register(data);
-			await login(data);
 
-			return true;
-		} catch (error) {
-			return handleError(error);
-		}
+		const { user, response } = await authService.register(data);
+
+		if (response.responseType !== 'SUCCESS') return handleError(response.responseMessage);
+
+		return login(user);
 	}
 
 	async function logout() {
-		setIsAuthLoading(true);
-
 		await authService.logout();
-
 		setUser(null);
-		setIsAuthLoading(false);
 		setIsAuthenticated(false);
+
+		return true;
+	}
+
+	async function updateUser(userID, data) {
+		const { user, response } = await authService.updateUser(userID, data);
+
+		if (response.responseType !== 'SUCCESS') return handleError(response.responseMessage);
+
+		setUser(user);
 
 		return true;
 	}
@@ -79,7 +81,8 @@ function useProvideAuth() {
 		isAuthLoading,
 		isAuthenticated,
 		login,
-		register,
 		logout,
+		register,
+		updateUser,
 	};
 }

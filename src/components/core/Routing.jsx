@@ -9,7 +9,6 @@ import LoginScreen from 'screens/auth/LoginScreen';
 import RegisterScreen from 'screens/auth/RegisterScreen';
 import HomeScreen from 'screens/home/HomeScreen';
 import AccountScreen from 'screens/user/AccountScreen';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import Header from 'components/core/Header';
 import Nav from 'components/core/Nav';
 
@@ -19,10 +18,8 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Routing = () => {
-	const { isAuthenticated, isAuthLoading } = useAuth();
+	const { isAuthenticated } = useAuth();
 	const header = (props) => <Header {...props} />;
-
-	if (isAuthLoading) return <AnimatedSpinner />;
 	return (
 		<NavigationContainer>
 			{isAuthenticated ? (

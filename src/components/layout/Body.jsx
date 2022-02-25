@@ -1,10 +1,13 @@
 import React from 'react';
-
+import { useAuth } from 'hooks/useAuth';
 import { Box } from 'native-base';
 
+import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 const Body = ({ children, ...rest }) => {
+	const { isAuthLoading } = useAuth();
 	return (
-		<Box flex={1} pb='20px' fac _light={{ bg: 'white' }} _dark={{ bg: 'dark.50' }} {...rest}>
+		<Box flex={1} pb='20px' _light={{ bg: 'white' }} _dark={{ bg: 'dark.50' }} {...rest}>
+			{isAuthLoading && <AnimatedSpinner />}
 			{children}
 		</Box>
 	);

@@ -19,16 +19,15 @@ import {
 	Icon,
 	useColorMode,
 } from 'native-base';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import Body from 'components/layout/Body';
 
 const LoginScreen = ({ navigation }) => {
 	const { setColorMode } = useColorMode();
 	const [showPassword, setShowPassword] = useState(false);
-	const { login, isAuthLoading } = useAuth();
+	const { login } = useAuth();
 	const { control, handleSubmit, formState } = useForm();
+	const { errors } = formState;
 
-	if (isAuthLoading) return <AnimatedSpinner />;
 	const onSubmit = async (data) => {
 		await login(data);
 	};
@@ -61,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
 									Sign in to continue!
 								</Text>
 								<VStack space={4} mt={4} alignItems='center' w='100%'>
-									<FormControl isRequired isInvalid={'email' in formState.errors}>
+									<FormControl isRequired isInvalid={'email' in errors}>
 										<FormControl.Label>Email Address</FormControl.Label>
 										<Controller
 											control={control}
@@ -84,12 +83,10 @@ const LoginScreen = ({ navigation }) => {
 											defaultValue=''
 										/>
 										<FormControl.ErrorMessage>
-											{formState.errors.email?.message}
+											{errors.email?.message}
 										</FormControl.ErrorMessage>
 									</FormControl>
-									<FormControl
-										isRequired
-										isInvalid={'password' in formState.errors}>
+									<FormControl isRequired isInvalid={'password' in errors}>
 										<FormControl.Label>Password</FormControl.Label>
 										<Controller
 											control={control}
@@ -125,7 +122,7 @@ const LoginScreen = ({ navigation }) => {
 											defaultValue=''
 										/>
 										<FormControl.ErrorMessage>
-											{formState.errors.password?.message}
+											{errors.password?.message}
 										</FormControl.ErrorMessage>
 									</FormControl>
 								</VStack>

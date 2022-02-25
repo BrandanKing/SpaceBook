@@ -1,49 +1,44 @@
-import { axiosInstance } from 'utils/axiosUtil';
-
-async function get(url, config) {
-	try {
-		let response = await axiosInstance.get(url, config);
-		return isValidResponse(response);
-	} catch (error) {
-		return isInValidResponse(error.response);
-	}
-}
+import axios from 'axios';
 
 async function post(url, data, config = {}) {
 	try {
-		let response = await axiosInstance.post(url, data, config);
-		return isValidResponse(response);
+		let response = await axios.post(url, data, config);
+		return response.data;
 	} catch (error) {
 		return isInValidResponse(error.response);
 	}
 }
 
-async function patch(url, data, config = {}) {
+async function get(url, config = {}) {
 	try {
-		let response = await axiosInstance.patch(url, data, config);
-		return isValidResponse(response);
+		let response = await axios.get(url, config);
+		return response.data;
 	} catch (error) {
-		return isInValidResponse(error.response);
+		isInValidResponse(error.response);
 	}
 }
 
-function isValidResponse(response) {
-	return {
-		...response.data,
-		responseType: 'SUCCESS',
-		responseMessage: 'Success',
-	};
+async function getAll(requests) {
+	try {
+		let data = await requests.map((request) => axios.get(request.url, request.config));
+		let response = await axios.all(data);
+		return response;
+	} catch (error) {
+		isInValidResponse(error.response);
+	}
 }
+
+function isValidResponse(response) {}
 function isInValidResponse(response) {
 	console.log('Axios error:', response);
-	return {
+	throw {
 		responseType: 'EXCEPTION',
 		responseMessage: response.data,
 	};
 }
 
 export default {
-	get,
 	post,
-	patch,
+	get,
+	getAll,
 };

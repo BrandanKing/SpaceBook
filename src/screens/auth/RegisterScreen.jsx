@@ -19,16 +19,14 @@ import {
 	Icon,
 	useColorMode,
 } from 'native-base';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import Body from 'components/layout/Body';
 
 const RegisterScreen = ({ navigation }) => {
 	const { setColorMode } = useColorMode();
 	const [showPassword, setShowPassword] = useState(false);
-	const { register, isAuthLoading } = useAuth();
+	const { register } = useAuth();
 	const { control, handleSubmit, formState } = useForm();
-
-	if (isAuthLoading) return <AnimatedSpinner />;
+	const { errors } = formState;
 
 	const onSubmit = async (data) => {
 		await register(data);
@@ -62,9 +60,7 @@ const RegisterScreen = ({ navigation }) => {
 									Sign up to continue!
 								</Text>
 								<VStack space={4} mt={4} alignItems='center' w='100%'>
-									<FormControl
-										isRequired
-										isInvalid={'first_name' in formState.errors}>
+									<FormControl isRequired isInvalid={'first_name' in errors}>
 										<FormControl.Label>First Name</FormControl.Label>
 										<Controller
 											control={control}
@@ -87,12 +83,10 @@ const RegisterScreen = ({ navigation }) => {
 											defaultValue=''
 										/>
 										<FormControl.ErrorMessage>
-											{formState.errors.first_name?.message}
+											{errors.first_name?.message}
 										</FormControl.ErrorMessage>
 									</FormControl>
-									<FormControl
-										isRequired
-										isInvalid={'last_name' in formState.errors}>
+									<FormControl isRequired isInvalid={'last_name' in errors}>
 										<FormControl.Label>Last Name</FormControl.Label>
 										<Controller
 											control={control}
@@ -115,10 +109,10 @@ const RegisterScreen = ({ navigation }) => {
 											defaultValue=''
 										/>
 										<FormControl.ErrorMessage>
-											{formState.errors.last_name?.message}
+											{errors.last_name?.message}
 										</FormControl.ErrorMessage>
 									</FormControl>
-									<FormControl isRequired isInvalid={'email' in formState.errors}>
+									<FormControl isRequired isInvalid={'email' in errors}>
 										<FormControl.Label>Email Address</FormControl.Label>
 										<Controller
 											control={control}
@@ -141,12 +135,10 @@ const RegisterScreen = ({ navigation }) => {
 											defaultValue=''
 										/>
 										<FormControl.ErrorMessage>
-											{formState.errors.email?.message}
+											{errors.email?.message}
 										</FormControl.ErrorMessage>
 									</FormControl>
-									<FormControl
-										isRequired
-										isInvalid={'password' in formState.errors}>
+									<FormControl isRequired isInvalid={'password' in errors}>
 										<FormControl.Label>Password</FormControl.Label>
 										<Controller
 											control={control}
@@ -187,7 +179,7 @@ const RegisterScreen = ({ navigation }) => {
 											defaultValue=''
 										/>
 										<FormControl.ErrorMessage>
-											{formState.errors.password?.message}
+											{errors.password?.message}
 										</FormControl.ErrorMessage>
 									</FormControl>
 								</VStack>
