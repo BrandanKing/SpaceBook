@@ -2,59 +2,48 @@ import { axiosInstance } from 'utils/axiosUtil';
 
 async function get(url, config) {
 	try {
-		//console.log("GET", url, config)
 		let response = await axiosInstance.get(url, config);
-		return checkResponse(response);
+		return isValidResponse(response);
 	} catch (error) {
-		console.log('Axios error:', error);
-		return {
-			responseType: 'EXCEPTION',
-			responseMessage: String(error.message || error),
-		};
+		return isInValidResponse(error.response);
 	}
 }
 
 async function post(url, data, config = {}) {
 	try {
-		//console.log("POST", url, config)
 		let response = await axiosInstance.post(url, data, config);
-		return checkResponse(response);
+		return isValidResponse(response);
 	} catch (error) {
-		console.log('Axios error:', error.response);
-		return {
-			responseType: 'EXCEPTION',
-			responseMessage: error.response.data,
-		};
+		return isInValidResponse(error.response);
 	}
 }
 
-function checkResponse(response) {
-	if (response.data) {
-		return {
-			...response.data,
-			responseType: 'SUCCESS',
-			responseMessage: 'Success',
-			// Added an isSuccess property to each response object so we don't have to
-			// keep checking the response type is equal to SUCCESS in every component
-			isSuccess: response.status === 200 ? true : false,
-		};
+async function patch(url, data, config = {}) {
+	try {
+		let response = await axiosInstance.patch(url, data, config);
+		return isValidResponse(response);
+	} catch (error) {
+		return isInValidResponse(error.response);
 	}
+}
+
+function isValidResponse(response) {
 	return {
-		isSuccess: false,
+		...response.data,
+		responseType: 'SUCCESS',
+		responseMessage: 'Success',
+	};
+}
+function isInValidResponse(response) {
+	console.log('Axios error:', response);
+	return {
 		responseType: 'EXCEPTION',
-		responseMessage:
-			response.status +
-			': ' +
-			(!response.statusText || response.statusText === 'undefined'
-				? 'Something went wrong'
-				: response.statusText),
+		responseMessage: response.data,
 	};
 }
 
 export default {
 	get,
 	post,
-	// put: axiosInstance.put,
-	// del,
-	// setDefaultHeader,
+	patch,
 };

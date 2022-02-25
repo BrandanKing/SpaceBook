@@ -61,10 +61,7 @@ const LoginScreen = ({ navigation }) => {
 									Sign in to continue!
 								</Text>
 								<VStack space={4} mt={4} alignItems='center' w='100%'>
-									<FormControl
-										isRequired
-										isInvalid
-										isInvalid={'email' in formState.errors}>
+									<FormControl isRequired isInvalid={'email' in formState.errors}>
 										<FormControl.Label>Email Address</FormControl.Label>
 										<Controller
 											control={control}
@@ -92,7 +89,6 @@ const LoginScreen = ({ navigation }) => {
 									</FormControl>
 									<FormControl
 										isRequired
-										isInvalid
 										isInvalid={'password' in formState.errors}>
 										<FormControl.Label>Password</FormControl.Label>
 										<Controller

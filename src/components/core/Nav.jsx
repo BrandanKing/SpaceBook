@@ -9,14 +9,6 @@ const Nav = ({ state, descriptors, navigation }) => {
 			safeAreaBottom
 			shadow={6}
 			alignItems='center'
-			w='100%'
-			maxW='80%'
-			position='absolute'
-			mx='auto'
-			bottom='10px'
-			left={0}
-			right={0}
-			borderRadius={50}
 			overflow='hidden'>
 			{state.routes.map((route, index) => {
 				const { options } = descriptors[route.key];

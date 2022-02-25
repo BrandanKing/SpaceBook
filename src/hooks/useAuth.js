@@ -24,7 +24,6 @@ function useProvideAuth() {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	function handleError(error) {
-		console.log('Error', error);
 		setIsAuthLoading(false);
 		toastError(error);
 	}
@@ -61,6 +60,13 @@ function useProvideAuth() {
 		return login(user);
 	}
 
+	async function updateUser(userID, data) {
+		const { user, response } = await authService.updateUser(userID, data);
+		if (response.responseType !== 'SUCCESS') return handleError(response.responseMessage);
+		setUser(user);
+		return true;
+	}
+
 	// Load user on mount this will cause any component that uses this
 	// hook to re-render with the latest auth object
 	useEffect(() => {
@@ -82,5 +88,6 @@ function useProvideAuth() {
 		login,
 		logout,
 		register,
+		updateUser,
 	};
 }

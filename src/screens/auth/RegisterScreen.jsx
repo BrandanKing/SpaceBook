@@ -118,10 +118,7 @@ const RegisterScreen = ({ navigation }) => {
 											{formState.errors.last_name?.message}
 										</FormControl.ErrorMessage>
 									</FormControl>
-									<FormControl
-										isRequired
-										isInvalid
-										isInvalid={'email' in formState.errors}>
+									<FormControl isRequired isInvalid={'email' in formState.errors}>
 										<FormControl.Label>Email Address</FormControl.Label>
 										<Controller
 											control={control}
@@ -149,7 +146,6 @@ const RegisterScreen = ({ navigation }) => {
 									</FormControl>
 									<FormControl
 										isRequired
-										isInvalid
 										isInvalid={'password' in formState.errors}>
 										<FormControl.Label>Password</FormControl.Label>
 										<Controller
