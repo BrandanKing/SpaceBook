@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		setColorMode('dark');
-	});
+	}, []);
 
 	return (
 		<Body _dark={{ bg: 'darkBlue.900' }}>
@@ -126,7 +126,14 @@ const LoginScreen = ({ navigation }) => {
 										</FormControl.ErrorMessage>
 									</FormControl>
 								</VStack>
-								<Button mt='4' w='100%' onPress={handleSubmit(onSubmit)}>
+								<Button
+									bg='darkBlue.700'
+									_text={{ color: 'white' }}
+									_pressed={{ bg: 'darkBlue.700' }}
+									mt='4'
+									w='100%'
+									colorScheme='darkBlue'
+									onPress={handleSubmit(onSubmit)}>
 									Sign In
 								</Button>
 								<HStack mt='6' justifyContent='center' w='100%'>
@@ -135,7 +142,7 @@ const LoginScreen = ({ navigation }) => {
 									</Text>
 									<Link
 										_text={{
-											color: 'primary.300',
+											color: 'darkBlue.500',
 											fontWeight: 'bold',
 											fontSize: 'sm',
 											textDecoration: 'none',

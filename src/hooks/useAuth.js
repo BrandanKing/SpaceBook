@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
-import { toastError } from 'utils/toastUtil';
+import { toastError, toastSuccess } from 'utils/toastUtil';
 import authService from 'services/authService';
 
 const AuthContext = createContext();
@@ -23,10 +23,15 @@ function useProvideAuth() {
 		toastError(error);
 	}
 
+	function handleSuccess(success) {
+		setIsAuthLoading(false);
+		toastSuccess(success);
+	}
+
 	async function login(data) {
 		setIsAuthLoading(true);
 		try {
-			const { user } = await authService.login(data);
+			const user = await authService.login(data);
 
 			setUser(user);
 			setIsAuthLoading(false);
@@ -46,6 +51,19 @@ function useProvideAuth() {
 
 			return true;
 		} catch (error) {
+			return handleError(error);
+		}
+	}
+
+	async function updateUser(data) {
+		try {
+			const user = await authService.updateUser(data);
+
+			setUser(user);
+			handleSuccess('Account Details Updated');
+			return true;
+		} catch (error) {
+			console.log(error);
 			return handleError(error);
 		}
 	}
@@ -80,6 +98,7 @@ function useProvideAuth() {
 		isAuthenticated,
 		login,
 		register,
+		updateUser,
 		logout,
 	};
 }

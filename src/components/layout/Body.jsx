@@ -1,8 +1,8 @@
 import React from 'react';
-import { useAuth } from 'hooks/useAuth';
 import { Box } from 'native-base';
-
+import { useAuth } from 'hooks/useAuth';
 import AnimatedSpinner from 'components/animation/AnimatedSpinner';
+
 const Body = ({ children, ...rest }) => {
 	const { isAuthLoading } = useAuth();
 	return (

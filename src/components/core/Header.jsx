@@ -9,8 +9,8 @@ const Header = ({ navigation, back, route, options }) => {
 	return (
 		<HStack
 			safeAreaTop
-			_light={{ bg: 'lightBlue.900' }}
-			_dark={{ bg: 'darkBlue.900' }}
+			_light={{ bg: 'darkBlue.700' }}
+			_dark={{ bg: 'darkBlue.800' }}
 			p='3'
 			justifyContent='space-between'
 			alignItems='center'

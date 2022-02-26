@@ -11,6 +11,7 @@ import HomeScreen from 'screens/home/HomeScreen';
 import AccountScreen from 'screens/user/AccountScreen';
 import Header from 'components/core/Header';
 import Nav from 'components/core/Nav';
+import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -18,8 +19,10 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Routing = () => {
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated, isAuthLoading } = useAuth();
 	const header = (props) => <Header {...props} />;
+
+	if (isAuthLoading) return <AnimatedSpinner />;
 	return (
 		<NavigationContainer>
 			{isAuthenticated ? (

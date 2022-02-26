@@ -28,7 +28,15 @@ async function getAll(requests) {
 	}
 }
 
-function isValidResponse(response) {}
+async function patch(url, data, config = {}) {
+	try {
+		let response = await axios.patch(url, data, config);
+		return response.data;
+	} catch (error) {
+		return isInValidResponse(error.data);
+	}
+}
+
 function isInValidResponse(response) {
 	console.log('Axios error:', response);
 	throw {
@@ -41,4 +49,5 @@ export default {
 	post,
 	get,
 	getAll,
+	patch,
 };

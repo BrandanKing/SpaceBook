@@ -1,63 +1,40 @@
-import React, { useLayoutEffect, useEffect } from 'react';
-import { ImageBackground } from 'react-native';
-import { ScrollView, Container, VStack, Skeleton, FormControl, Button, Input } from 'native-base';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
-import Body from 'components/layout/Body';
+import { Modal, VStack, FormControl, Input, Button } from 'native-base';
 import { useAuth } from 'hooks/useAuth';
-import { toastSuccess } from 'utils/toastUtil';
-const AccountScreen = ({ navigation }) => {
-	const { user, updateUser, isAuthLoading } = useAuth();
+
+const UpdateProfile = ({ showModal, onClose, ...props }) => {
+	const { user, updateUser } = useAuth();
 	const { control, handleSubmit, formState, reset } = useForm({
 		defaultValues: user,
 	});
-
 	const { errors, isDirty, isSubmitting } = formState;
 
-	if (isAuthLoading) return <AnimatedSpinner />;
+	useEffect(() => {
+		reset({ ...user });
+	}, [user]);
+
 	const onSubmit = async (data) => {
 		let updated_data = {};
 		if (user.first_name != data.first_name) updated_data.first_name = data.first_name;
 		if (user.last_name != data.last_name) updated_data.last_name = data.last_name;
 		if (user.email != data.email) updated_data.email = data.email;
 		if (Object.keys(updated_data).length != 0) {
-			await updateUser(user.id, updated_data);
-			toastSuccess('Account Details Updated');
+			await updateUser(updated_data);
+			onClose(false);
 		}
 	};
-
-	useEffect(() => {
-		reset({ ...user });
-	}, [user]);
-
-	useLayoutEffect(() => {
-		navigation.setOptions({
-			title: user.first_name + ' ' + user.last_name,
-		});
-	}, [navigation, user]);
-
 	return (
-		<Body flex={1} w='100%'>
-			<ScrollView w='100%'>
-				<ImageBackground
-					resizeMode='cover'
-					source={require('assets/nightsky.jpg')}
-					style={{
-						height: '150px',
-						width: '100%',
-					}}></ImageBackground>
-				<Container>
-					<VStack space={6} w='100%' alignItems='center'>
-						<Skeleton
-							borderWidth={1}
-							borderColor='coolGray.200'
-							endColor='warmGray.50'
-							size='20'
-							rounded='full'
-							mt='-40px'
-						/>
-					</VStack>
-					<VStack space={4} mt={4} alignItems='center' w='100%'>
+		<Modal
+			isOpen={showModal}
+			onClose={() => onClose(false)}
+			avoidKeyboard={true}
+			animationPreset='slide'>
+			<Modal.Content w='90%'>
+				<Modal.CloseButton />
+				<Modal.Header>Edit Profile</Modal.Header>
+				<Modal.Body>
+					<VStack space={4} alignItems='center' w='100%'>
 						<FormControl isRequired isInvalid={'first_name' in errors}>
 							<FormControl.Label>First Name</FormControl.Label>
 							<Controller
@@ -134,19 +111,27 @@ const AccountScreen = ({ navigation }) => {
 							</FormControl.ErrorMessage>
 						</FormControl>
 					</VStack>
-					<Button
-						onPress={handleSubmit(onSubmit)}
-						mt='4'
-						w='100%'
-						isDisabled={!isDirty}
-						isLoading={isSubmitting}
-						isLoadingText='Updating'>
-						Update Details
-					</Button>
-				</Container>
-			</ScrollView>
-		</Body>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button.Group space={2}>
+						<Button
+							variant='ghost'
+							colorScheme='blueGray'
+							onPress={() => onClose(false)}>
+							Close
+						</Button>
+						<Button
+							onPress={handleSubmit(onSubmit)}
+							isDisabled={!isDirty}
+							isLoading={isSubmitting}
+							isLoadingText='Updating'>
+							Update
+						</Button>
+					</Button.Group>
+				</Modal.Footer>
+			</Modal.Content>
+		</Modal>
 	);
 };
 
-export default AccountScreen;
+export default UpdateProfile;

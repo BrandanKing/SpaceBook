@@ -1,11 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { NativeBaseProvider } from 'native-base';
 import Routing from 'components/core/Routing';
 import { AuthProvider } from 'hooks/useAuth';
 import Fonts from 'components/core/Fonts';
 import Theme from 'styles/Theme';
-
-import { NativeBaseProvider } from 'native-base';
 
 const App = () => {
 	return (

@@ -22,17 +22,15 @@ export async function saveUserTokenToAsyncStorage(token) {
 export async function login(data) {
 	try {
 		const { id, token } = await httpService.post('http://localhost:3333/api/1.0.0/login', data);
-		const response = await httpService.get(`http://localhost:3333/api/1.0.0/user/${id}`, {
+		const user = await httpService.get(`http://localhost:3333/api/1.0.0/user/${id}`, {
 			headers: {
 				'X-Authorization': token,
 			},
 		});
-		const result = {
-			user: response,
-		};
+
 		await saveUserTokenToAsyncStorage(token);
-		await saveUserToAsyncStorage(result.user);
-		return result;
+		await saveUserToAsyncStorage(user);
+		return user;
 	} catch (error) {
 		throw error.responseMessage;
 	}
@@ -42,6 +40,23 @@ export async function register(data) {
 	try {
 		await httpService.post('http://localhost:3333/api/1.0.0/user', data);
 		return true;
+	} catch (error) {
+		throw error.responseMessage;
+	}
+}
+
+export async function updateUser(data) {
+	try {
+		const token = await getUserTokenFromAsyncStorage();
+		const user = await getUserFromAsyncStorage();
+		await httpService.patch(`http://localhost:3333/api/1.0.0/user/${user.user_id}`, data, {
+			headers: {
+				'X-Authorization': token,
+			},
+		});
+		const updatedUser = Object.assign(user, data);
+		await saveUserToAsyncStorage(updatedUser);
+		return updatedUser;
 	} catch (error) {
 		throw error.responseMessage;
 	}
@@ -58,11 +73,11 @@ export async function logout() {
 	await AsyncStorage.removeItem('@user');
 }
 
-export async function getUser(id, token) {}
-
 export default {
 	login,
 	register,
+	updateUser,
 	logout,
 	getUserFromAsyncStorage,
+	getUserTokenFromAsyncStorage,
 };

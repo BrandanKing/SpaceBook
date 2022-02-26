@@ -4,8 +4,8 @@ import { HStack, Icon, Text, Pressable, Center } from 'native-base';
 const Nav = ({ state, descriptors, navigation }) => {
 	return (
 		<HStack
-			_light={{ bg: 'lightBlue.900' }}
-			_dark={{ bg: 'darkBlue.900' }}
+			_light={{ bg: 'darkBlue.700' }}
+			_dark={{ bg: 'darkBlue.800' }}
 			safeAreaBottom
 			shadow={6}
 			alignItems='center'
