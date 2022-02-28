@@ -4,6 +4,8 @@ import userService from 'services/userService';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { toastError } from 'utils/toastUtil';
 
+// TODO: Create friend overview component - useable for search, friends & friend requests
+
 const FriendsList = () => {
 	const [friendsList, setFriendsList] = useState([]);
 
