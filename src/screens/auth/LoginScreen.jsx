@@ -35,7 +35,6 @@ const LoginScreen = ({ navigation }) => {
 	useEffect(() => {
 		setColorMode('dark');
 	}, []);
-
 	return (
 		<Body _dark={{ bg: 'darkBlue.900' }}>
 			<ImageBackground

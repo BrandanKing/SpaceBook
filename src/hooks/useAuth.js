@@ -14,7 +14,7 @@ export const useAuth = () => {
 };
 
 function useProvideAuth() {
-	const [user, setUser] = useState(null);
+	const [authUser, setAuthUser] = useState(null);
 	const [isAuthLoading, setIsAuthLoading] = useState(true);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -33,7 +33,7 @@ function useProvideAuth() {
 		try {
 			const user = await authService.login(data);
 
-			setUser(user);
+			setAuthUser(user);
 			setIsAuthLoading(false);
 			setIsAuthenticated(true);
 
@@ -57,9 +57,7 @@ function useProvideAuth() {
 
 	async function updateUser(data) {
 		try {
-			const user = await authService.updateUser(data);
-
-			setUser(user);
+			await authService.updateUser(data);
 			handleSuccess('Account Details Updated');
 			return true;
 		} catch (error) {
@@ -73,7 +71,7 @@ function useProvideAuth() {
 
 		await authService.logout();
 
-		setUser(null);
+		setAuthUser(null);
 		setIsAuthLoading(false);
 		setIsAuthenticated(false);
 
@@ -86,14 +84,13 @@ function useProvideAuth() {
 
 	async function onMount() {
 		const user = await authService.getUserFromAsyncStorage();
-
-		setUser(user);
+		setAuthUser(user);
 		setIsAuthenticated(!!user);
 		setIsAuthLoading(false);
 	}
 
 	return {
-		user,
+		authUser,
 		isAuthLoading,
 		isAuthenticated,
 		login,

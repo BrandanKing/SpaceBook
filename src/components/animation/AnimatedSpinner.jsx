@@ -8,7 +8,7 @@ const AnimatedSpinner = () => {
 			opacity='0.85'
 			zIndex={1}
 			flex={1}
-			position='fixed'
+			position='absolute'
 			top={0}
 			bottom={0}
 			left={0}

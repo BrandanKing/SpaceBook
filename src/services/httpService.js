@@ -37,6 +37,15 @@ async function patch(url, data, config = {}) {
 	}
 }
 
+async function del(url, config = {}) {
+	try {
+		let response = await axios.delete(url, config);
+		return response.data;
+	} catch (error) {
+		return isInValidResponse(error.data);
+	}
+}
+
 function isInValidResponse(response) {
 	console.log('Axios error:', response);
 	throw {
@@ -50,4 +59,5 @@ export default {
 	get,
 	getAll,
 	patch,
+	del,
 };

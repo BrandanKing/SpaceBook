@@ -1,71 +1,51 @@
 import React from 'react';
+import Toast from 'react-native-toast-message';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Toast from 'react-native-toast-message';
 import { useAuth } from 'hooks/useAuth';
 import { toastConfig } from 'utils/toastUtil';
-import LoginScreen from 'screens/auth/LoginScreen';
-import RegisterScreen from 'screens/auth/RegisterScreen';
-import HomeScreen from 'screens/home/HomeScreen';
-import AccountScreen from 'screens/user/AccountScreen';
 import Header from 'components/core/Header';
-import Nav from 'components/core/Nav';
 import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import LoginScreen from 'screens/auth/LoginScreen';
+import RegisterScreen from 'screens/auth/RegisterScreen';
+
+import AccountScreen from 'screens/user/AccountScreen';
+import FriendsListScreen from 'screens/friends/FriendsListScreen';
+import FriendRequestScreen from 'screens/friends/FriendRequestScreen';
+import SearchScreen from 'screens/search/SearchScreen';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 const Routing = () => {
-	const { isAuthenticated, isAuthLoading } = useAuth();
+	const { authUser, isAuthenticated, isAuthLoading } = useAuth();
 	const header = (props) => <Header {...props} />;
 
 	if (isAuthLoading) return <AnimatedSpinner />;
 	return (
 		<NavigationContainer>
 			{isAuthenticated ? (
-				<Tab.Navigator
-					initialRouteName='Account'
+				<Stack.Navigator
 					tabBar={(props) => <Nav {...props} />}
 					screenOptions={{
 						header,
 					}}>
-					<Tab.Screen
-						name='Home'
-						component={HomeScreen}
-						options={{
-							title: 'SpaceBook',
-							tabBarLabel: 'Home',
-							tabBarIcon: {
-								as: MaterialCommunityIcons,
-								name: 'home',
-							},
-						}}
-					/>
-					<Tab.Screen
-						name='Search'
-						component={HomeScreen}
-						options={{
-							tabBarIcon: {
-								as: MaterialIcons,
-								name: 'search',
-							},
-						}}
-					/>
-					<Tab.Screen
+					<Stack.Screen
 						name='Account'
 						component={AccountScreen}
+						initialParams={authUser && { user_id: authUser.id }}
 						options={{
-							tabBarLabel: 'Account',
-							tabBarIcon: {
-								as: MaterialCommunityIcons,
-								name: 'account',
-							},
+							title: 'SpaceBook',
 						}}
 					/>
-				</Tab.Navigator>
+					<Stack.Screen
+						name='Friends'
+						component={FriendsListScreen}
+						initialParams={authUser && { user_id: authUser.id }}
+					/>
+					<Stack.Screen name='Friend Requests' component={FriendRequestScreen} />
+					<Stack.Screen name='Search' component={SearchScreen} />
+				</Stack.Navigator>
 			) : (
 				<Stack.Navigator
 					screenOptions={{

@@ -16,7 +16,7 @@ const Header = ({ navigation, back, route, options }) => {
 			alignItems='center'
 			w='100%'>
 			<HStack alignItems='center'>
-				{back && (
+				{back ? (
 					<IconButton
 						onPress={navigation.goBack}
 						icon={
@@ -28,20 +28,36 @@ const Header = ({ navigation, back, route, options }) => {
 							/>
 						}
 					/>
+				) : (
+					<Icon
+						as={MaterialCommunityIcons}
+						size='sm'
+						mr='2'
+						name='space-invaders'
+						color='white'
+					/>
 				)}
-				<Icon
-					as={MaterialCommunityIcons}
-					size='sm'
-					mr='3'
-					name='space-invaders'
-					color='white'
-				/>
-				<Text color='white' fontSize='lg' fontWeight='bold'>
+				<Text maxW='150px' color='white' fontSize='lg' fontWeight='bold' isTruncated>
 					{options.title ? options.title : route.name}
 				</Text>
 			</HStack>
 			<HStack>
 				<IconButton
+					variant='unstyled'
+					icon={
+						<Icon
+							as={MaterialIcons}
+							size='sm'
+							name='search'
+							color='white'
+							onPress={() => {
+								navigation.navigate('Search');
+							}}
+						/>
+					}
+				/>
+				<IconButton
+					variant='unstyled'
 					icon={
 						<Icon
 							as={MaterialCommunityIcons}
@@ -53,6 +69,7 @@ const Header = ({ navigation, back, route, options }) => {
 					}
 				/>
 				<IconButton
+					variant='unstyled'
 					icon={
 						<Icon
 							as={MaterialIcons}

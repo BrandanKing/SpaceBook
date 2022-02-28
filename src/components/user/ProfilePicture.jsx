@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton, Avatar } from 'native-base';
-import userService from 'services/userService';
+import { getProfilePicture } from 'services/userService';
 import { toastError } from 'utils/toastUtil';
 
 const ProfilePicture = ({ id, ...props }) => {
@@ -8,7 +8,7 @@ const ProfilePicture = ({ id, ...props }) => {
 
 	const onMount = async () => {
 		try {
-			const response = await userService.getProfilePicture(id);
+			const response = await getProfilePicture(id);
 			let imageURL = URL.createObjectURL(response);
 			setProfilePic(imageURL);
 		} catch (error) {

@@ -3,8 +3,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { Modal, VStack, FormControl, Input, Button } from 'native-base';
 import { useAuth } from 'hooks/useAuth';
 
-const UpdateProfile = ({ showModal, onClose, ...props }) => {
-	const { user, updateUser } = useAuth();
+const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {
+	const { updateUser } = useAuth();
 	const { control, handleSubmit, formState, reset } = useForm({
 		defaultValues: user,
 	});
@@ -21,12 +21,13 @@ const UpdateProfile = ({ showModal, onClose, ...props }) => {
 		if (user.email != data.email) updated_data.email = data.email;
 		if (Object.keys(updated_data).length != 0) {
 			await updateUser(updated_data);
+			onSave(data);
 			onClose(false);
 		}
 	};
 	return (
 		<Modal
-			isOpen={showModal}
+			isOpen={showEditUser}
 			onClose={() => onClose(false)}
 			avoidKeyboard={true}
 			animationPreset='slide'>

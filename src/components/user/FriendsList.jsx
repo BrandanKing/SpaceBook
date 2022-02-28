@@ -1,18 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { Text } from 'native-base';
+import { Box, FlatList, Button, HStack, Container, Text } from 'native-base';
+import ProfilePicture from 'components/user/ProfilePicture';
 import userService from 'services/userService';
-import { SwipeListView } from 'react-native-swipe-list-view';
 import { toastError } from 'utils/toastUtil';
 
-// TODO: Create friend overview component - useable for search, friends & friend requests
+const renderItem = ({ item, index }) => {
+	return (
+		<HStack
+			space={3}
+			position='relative'
+			justifyContent='space-between'
+			borderBottomWidth='1'
+			_dark={{
+				borderColor: 'white',
+			}}
+			_light={{
+				borderColor: 'gray.600',
+			}}
+			pl='4'
+			py='2'>
+			<HStack space={3} alignItems='center'>
+				<ProfilePicture size='28px' id={8} />
+				<Text>{item.user_givenname}</Text>
+			</HStack>
 
-const FriendsList = () => {
+			<Button.Group size='sm' isAttached>
+				<Button colorScheme='red' variant='ghost' px={1}>
+					Edit
+				</Button>
+				<Button
+					colorScheme='unstyled'
+					_dark={{
+						_text: {
+							color: 'white',
+						},
+					}}
+					variant='ghost'
+					px={1}>
+					View
+				</Button>
+			</Button.Group>
+		</HStack>
+	);
+};
+
+const FriendsList = (props) => {
 	const [friendsList, setFriendsList] = useState([]);
 
 	const onMount = async () => {
 		try {
 			const response = await userService.getFriends(8);
-			setFriendsList([...friendsList, response]);
+			setFriendsList(response);
 		} catch (error) {
 			toastError(error);
 		}
@@ -21,25 +59,17 @@ const FriendsList = () => {
 	useEffect(() => {
 		onMount();
 	}, []);
-
-	const renderHiddenItem = (data, rowMap) => <Text>Hidden</Text>;
-	const renderItem = ({ item, index }) => <Text key={index}>Test</Text>;
-
 	return (
-		<>
+		<Container>
 			{friendsList.length > 0 && (
-				<SwipeListView
+				<FlatList
+					w='100%'
 					data={friendsList}
-					rightOpenValue={-130}
-					previewRowKey={'0'}
-					previewOpenValue={-40}
-					previewOpenDelay={3000}
-					renderHiddenItem={renderHiddenItem}
 					renderItem={renderItem}
-					//keyExtractor={(friend) => friend.user_id.toString()}
+					keyExtractor={(item) => item.user_id.toString()}
 				/>
 			)}
-		</>
+		</Container>
 	);
 };
 
