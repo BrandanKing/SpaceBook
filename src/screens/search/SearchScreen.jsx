@@ -1,28 +1,52 @@
 import React, { useState } from 'react';
+import { Dimensions } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { Container, FlatList, VStack, Input, Icon, FormControl, Text } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
+
+import { Container, FlatList, VStack, Input, Icon, FormControl, Text } from 'native-base';
+
 import { toastError } from 'utils/toastUtil';
 import { search } from 'services/userService';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
+
 import Body from 'components/layout/Body';
+import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import FriendDisplay from 'components/layout/FriendDisplay';
 import AddFriend from 'components/user/AddFriend';
 
 const SearchScreen = () => {
+	const searchLimit = 6;
+	const flatListHeight = Dimensions.get('window').height - 100;
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
+	const [searchCount, setSearchCount] = useState(0);
 	const { control, handleSubmit, formState } = useForm();
 	const { errors, isSubmitting } = formState;
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await search(data.query);
+			const response = await search(data.query, 'all', searchLimit);
 			setSearchQuery(data.query);
 			setSearchResults(response);
-
+			setSearchCount(1);
 			if (response.length <= 0) {
 				throw 'No results found for ' + data.query;
+			}
+		} catch (error) {
+			toastError(error);
+		}
+	};
+
+	const loadMore = async () => {
+		try {
+			const response = await search(
+				searchQuery,
+				'all',
+				searchLimit,
+				searchLimit * searchCount
+			);
+			if (response.length > 0) {
+				setSearchResults([...searchResults, ...response]);
+				setSearchCount(searchCount + 1);
 			}
 		} catch (error) {
 			toastError(error);
@@ -68,8 +92,10 @@ const SearchScreen = () => {
 								Search Results for <Text bold>{searchQuery}</Text>
 							</Text>
 							<FlatList
+								maxH={flatListHeight}
 								w='100%'
 								data={searchResults}
+								onEndReached={loadMore}
 								renderItem={(item) => (
 									<FriendDisplay
 										{...item}

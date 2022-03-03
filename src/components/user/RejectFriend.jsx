@@ -1,6 +1,7 @@
 import React from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Button, Icon } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
+
 import { rejectFriendRequest } from 'services/userService';
 import { toastError } from 'utils/toastUtil';
 

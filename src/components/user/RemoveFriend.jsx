@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useRef, useState } from 'react';
 import { AlertDialog, Button, Icon, Text } from 'native-base';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const RemoveFriend = ({ user }) => {
 	const [isOpen, setIsOpen] = useState(false);

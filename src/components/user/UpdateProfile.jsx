@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { Modal, VStack, FormControl, Input, Button } from 'native-base';
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button, FormControl, Input, Modal, VStack } from 'native-base';
+
 import { useAuth } from 'hooks/useAuth';
 
 const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {

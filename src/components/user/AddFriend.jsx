@@ -1,8 +1,9 @@
 import React from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
-import { addFriend } from 'services/userService';
-import { toastError, toastSuccess } from 'utils/toastUtil';
 import { Button, Icon } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
+
+import { toastError, toastSuccess } from 'utils/toastUtil';
+import { addFriend } from 'services/userService';
 
 const AddFriend = ({ user, ...props }) => {
 	const friendRequest = async () => {

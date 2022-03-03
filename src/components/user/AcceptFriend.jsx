@@ -1,11 +1,12 @@
 import React from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Button, Icon } from 'native-base';
-import { acceptFriendRequest } from 'services/userService';
+import { MaterialIcons } from '@expo/vector-icons';
+
 import { toastError, toastSuccess } from 'utils/toastUtil';
+import { acceptFriendRequest } from 'services/userService';
 
 const AcceptFriend = ({ user, index, children, removeRequest, ...props }) => {
-	const friendRequest = async () => {
+	const acceptRequest = async () => {
 		try {
 			const response = await acceptFriendRequest(user.user_id);
 			toastSuccess('Friend Added');
@@ -16,9 +17,9 @@ const AcceptFriend = ({ user, index, children, removeRequest, ...props }) => {
 	};
 	return (
 		<Button
-			onPress={friendRequest}
-			{...props}
-			endIcon={<Icon as={MaterialIcons} name='person-add' size='xs' />}>
+			onPress={acceptRequest}
+			endIcon={<Icon as={MaterialIcons} name='person-add' size='xs' />}
+			{...props}>
 			{children}
 		</Button>
 	);

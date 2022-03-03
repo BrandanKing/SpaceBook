@@ -16,7 +16,7 @@ export async function login(data) {
 		await saveUserToAsyncStorage(user);
 		return user;
 	} catch (error) {
-		console.log('HTTP error:', response);
+		console.log('HTTP error:', error);
 		throw error.responseMessage;
 	}
 }
@@ -27,7 +27,7 @@ export async function register(data) {
 		await httpService.post('http://localhost:3333/api/1.0.0/user', data);
 		return true;
 	} catch (error) {
-		console.log('HTTP error:', response);
+		console.log('HTTP error:', error);
 		throw error.responseMessage;
 	}
 }
@@ -42,7 +42,7 @@ export async function updateUser(data) {
 		});
 		return true;
 	} catch (error) {
-		console.log('HTTP error:', response);
+		console.log('HTTP error:', error);
 		throw error.responseMessage;
 	}
 }

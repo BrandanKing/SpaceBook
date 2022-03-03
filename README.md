@@ -26,18 +26,19 @@ Complete: Get friend requests (/friendrequests)
 Complete: Accept friend request (Post: /friendrequests/{user_id})
 Complete: Reject friend request (Delete: /friendrequests/{user_id})
 Complete: Find friends (/search)
-TODO: Search Friends List
-TODO: Make sure Pagination Works
+Complete: Search Friends List
+Complete: Make sure Pagination Works
 
 Post Management
 
-TODO: Get list of posts (Get: /user/{user_id}/post)
-TODO: Add Post (Post: /user/{user_id}/post)
-TODO: View single post (Get: /user/{user_id}/post/{post_id})
-TODO: Delete a post (Delete: /user/{user_id}/post/{post_id})
-TODO: Update a post (Patch: /user/{user_id}/post/{post_id})
+Complete: Get list of posts (Get: /user/{user_id}/post)
+TODO: Pagination
+Complete: Add Post (Post: /user/{user_id}/post)
+Complete: View single post (Get: /user/{user_id}/post/{post_id})
+Complete: Delete a post (Delete: /user/{user_id}/post/{post_id})
+Complete: Update a post (Patch: /user/{user_id}/post/{post_id})
 TODO: Like a post (Post: /user/{user_id}/post/{post_id}/like)
-TODO: Delete a post (Delete: /user/{user_id}/post/{post_id}/like)
+TODO: Remove a like (Delete: /user/{user_id}/post/{post_id}/like)
 
 Extension
 

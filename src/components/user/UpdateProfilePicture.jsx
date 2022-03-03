@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef, cloneElement } from 'react';
+import React, { cloneElement, useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
-import { Button, Modal, Box, Center, Pressable } from 'native-base';
-import { updateProfilePicture } from 'services/userService';
+
+import { Box, Button, Center, Modal, Pressable } from 'native-base';
+
 import { toastError, toastSuccess } from 'utils/toastUtil';
+import { updateProfilePicture } from 'services/userService';
 
 const UpdateProfilePicture = ({ id, ...props }) => {
 	const [showModal, setShowModal] = useState(false);
@@ -42,28 +44,39 @@ const UpdateProfilePicture = ({ id, ...props }) => {
 
 	const openModal = () => {
 		if (!hasPermission) {
-			toastError('No Permission To Access Camera');
+			toastError('Cannot Access Camera');
 			return;
 		}
 		setShowModal(true);
 	};
 
+	const onMount = async () => {
+		await getCameraPermission();
+	};
+
 	useEffect(() => {
-		getCameraPermission();
-		if (!hasPermission) toastError('No Permission To Access Camera');
+		onMount();
 	}, []);
 
 	return (
 		<>
-			<Pressable onPress={openModal}>{cloneElement(props.children, { pic_updated: update })}</Pressable>
+			<Pressable onPress={openModal}>
+				{cloneElement(props.children, { pic_updated: update })}
+			</Pressable>
 			{showModal && hasPermission && (
 				<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-					<Modal.Content maxWidth="400px">
+					<Modal.Content maxWidth='400px'>
 						<Modal.CloseButton />
 						<Modal.Header>Update Profile Picture</Modal.Header>
 						<Modal.Body>
 							<Center flex={1}>
-								<Box minW="200px" maxW="200px" minH="200px" maxH="200px" rounded="full" overflow="hidden">
+								<Box
+									minW='200px'
+									maxW='200px'
+									minH='200px'
+									maxH='200px'
+									rounded='full'
+									overflow='hidden'>
 									<Camera ref={camera} type={cameraType}></Camera>
 								</Box>
 							</Center>
@@ -71,12 +84,11 @@ const UpdateProfilePicture = ({ id, ...props }) => {
 						<Modal.Footer>
 							<Button.Group space={2}>
 								<Button
-									variant="ghost"
-									colorScheme="blueGray"
+									variant='ghost'
+									colorScheme='blueGray'
 									onPress={() => {
 										setShowModal(false);
-									}}
-								>
+									}}>
 									Close
 								</Button>
 								<Button onPress={takePicture}>Update</Button>

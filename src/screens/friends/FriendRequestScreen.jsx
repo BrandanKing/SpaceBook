@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+
 import { FlatList, Container, Heading, Button } from 'native-base';
+
 import { toastError } from 'utils/toastUtil';
 import { getFriendRequests } from 'services/userService';
 
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import Body from 'components/layout/Body';
+import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 import FriendDisplay from 'components/layout/FriendDisplay';
 import AcceptFriend from 'components/user/AcceptFriend';
 import RejectFriend from 'components/user/RejectFriend';

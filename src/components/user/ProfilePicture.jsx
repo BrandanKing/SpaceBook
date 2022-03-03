@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Skeleton, Avatar } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { Avatar, Skeleton } from 'native-base';
+
 import { getProfilePicture } from 'services/userService';
 import { toastError } from 'utils/toastUtil';
 

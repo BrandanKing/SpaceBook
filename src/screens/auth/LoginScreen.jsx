@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Platform, ImageBackground } from 'react-native';
-import { useAuth } from 'hooks/useAuth';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import {
 	KeyboardAvoidingView,
@@ -19,6 +18,7 @@ import {
 	Icon,
 	useColorMode,
 } from 'native-base';
+import { useAuth } from 'hooks/useAuth';
 import Body from 'components/layout/Body';
 
 const LoginScreen = ({ navigation }) => {
