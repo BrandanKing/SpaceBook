@@ -1,5 +1,27 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { format } from 'date-fns';
+
 import authService from 'services/authService';
 import httpService from 'services/httpService';
+
+export async function saveDraftPost(draft) {
+	const date = format(new Date(), 'Pp');
+	draft['date'] = date;
+
+	let drafts = await getDraftPost();
+	drafts.push(draft);
+
+	drafts.sort(function (a, b) {
+		return new Date(b.date) - new Date(a.date);
+	});
+
+	return await AsyncStorage.setItem('@user_drafts', JSON.stringify(drafts));
+}
+
+export async function getDraftPost() {
+	const drafts = await AsyncStorage.getItem('@user_drafts');
+	return drafts ? JSON.parse(drafts) : [];
+}
 
 export async function getProfilePicture(id) {
 	try {
@@ -181,7 +203,7 @@ export async function addPost(user_id, data) {
 	}
 }
 
-export async function getPosts(user_id) {
+export async function getPosts(user_id, limit = 1, offset = 0) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
 		const response = await httpService.get(
@@ -190,6 +212,10 @@ export async function getPosts(user_id) {
 				headers: {
 					'X-Authorization': token,
 				},
+				// params: {
+				// 	limit: limit,
+				// 	offset: offset,
+				// },
 			}
 		);
 		return response;
@@ -310,4 +336,8 @@ export default {
 	deletePost,
 	addLike,
 	deleteLike,
+
+	// Draft
+	saveDraftPost,
+	getDraftPost,
 };

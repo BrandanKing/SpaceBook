@@ -4,25 +4,14 @@ import { format } from 'date-fns';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { HStack, VStack, Text, Menu, Pressable, Icon, Skeleton } from 'native-base';
 import { useAuth } from 'hooks/useAuth';
-import { toastError, toastSuccess } from 'utils/toastUtil';
-import { deletePost } from 'services/userService';
 import LikePost from 'components/user/LikePost';
+import RemovePost from 'components/user/RemovePost';
 
 const Post = ({ item, updatePostsState, id }) => {
 	const navigation = useNavigation();
 	const { author } = item;
 	const { authUser } = useAuth();
 	const date = format(new Date(item.timestamp), 'PPPp');
-
-	const removePost = async () => {
-		try {
-			await deletePost(id, item.post_id);
-			toastSuccess('Post Deleted');
-			updatePostsState({});
-		} catch (error) {
-			toastError(error);
-		}
-	};
 
 	return (
 		<Pressable
@@ -76,7 +65,12 @@ const Post = ({ item, updatePostsState, id }) => {
 									}}>
 									Edit
 								</Menu.Item>
-								<Menu.Item onPress={removePost}>Delete</Menu.Item>
+								<RemovePost
+									id={id}
+									post_id={item.post_id}
+									updatePostsState={updatePostsState}>
+									<Menu.Item>Delete</Menu.Item>
+								</RemovePost>
 							</Menu>
 						)}
 					</HStack>

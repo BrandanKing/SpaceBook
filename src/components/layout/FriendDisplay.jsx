@@ -18,14 +18,14 @@ const FriendDisplay = ({ item, renderedButtons, requests }) => {
 				position='relative'
 				justifyContent='space-between'
 				borderBottomWidth='1'
+				p={3}
+				pr={0}
 				_dark={{
 					borderColor: 'white',
 				}}
 				_light={{
 					borderColor: 'gray.600',
-				}}
-				p={3}
-				pr={0}>
+				}}>
 				<HStack space={3} alignItems='center'>
 					<ProfilePicture rounded='full' size='32px' id={item.user_id} />
 					<Text isTruncated maxW='150px'>

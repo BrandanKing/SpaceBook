@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, TextArea, FormControl } from 'native-base';
 import { Controller, useForm } from 'react-hook-form';
-import { addPost } from 'services/userService';
+import { addPost, saveDraftPost, getDraftPost } from 'services/userService';
 import { toastError, toastSuccess } from 'utils/toastUtil';
 
 const UserPostInput = ({ id, updatePostsState, ...props }) => {
@@ -17,6 +17,14 @@ const UserPostInput = ({ id, updatePostsState, ...props }) => {
 		} catch (error) {
 			toastError(error);
 		}
+	};
+
+	const savePost = async (data) => {
+		data['user_id'] = id;
+		await saveDraftPost(data);
+		console.log(await getDraftPost());
+
+		//reset({ text: '' });
 	};
 	return (
 		<Box alignItems='flex-end' w='100%'>
@@ -41,8 +49,12 @@ const UserPostInput = ({ id, updatePostsState, ...props }) => {
 				<FormControl.ErrorMessage>{errors.text?.message}</FormControl.ErrorMessage>
 			</FormControl>
 			<Button.Group mt={3} isAttached>
-				<Button variant='outline' colorScheme='darkBlue' py={1.5}>
-					Save
+				<Button
+					variant='outline'
+					colorScheme='darkBlue'
+					py={1.5}
+					onPress={handleSubmit(savePost)}>
+					Save as Draft
 				</Button>
 				<Button
 					colorScheme='darkBlue'

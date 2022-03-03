@@ -23,7 +23,6 @@ export async function login(data) {
 
 export async function register(data) {
 	try {
-		w;
 		await httpService.post('http://localhost:3333/api/1.0.0/user', data);
 		return true;
 	} catch (error) {

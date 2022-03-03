@@ -17,6 +17,7 @@ import FriendsListScreen from 'screens/friends/FriendsListScreen';
 import FriendRequestScreen from 'screens/friends/FriendRequestScreen';
 import SearchScreen from 'screens/search/SearchScreen';
 import EditPostScreen from 'screens/user/EditPostScreen';
+import DraftScreen from 'screens/user/DraftScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ const Routing = () => {
 		<NavigationContainer>
 			{isAuthenticated ? (
 				<Stack.Navigator
+					//initialRouteName='Drafts'
 					tabBar={(props) => <Nav {...props} />}
 					screenOptions={{
 						header,
@@ -49,6 +51,7 @@ const Routing = () => {
 					<Stack.Screen name='Friend Requests' component={FriendRequestScreen} />
 					<Stack.Screen name='Search' component={SearchScreen} />
 					<Stack.Screen name='Edit Post' component={EditPostScreen} />
+					<Stack.Screen name='Drafts' component={DraftScreen} />
 				</Stack.Navigator>
 			) : (
 				<Stack.Navigator

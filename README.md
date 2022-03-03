@@ -32,17 +32,28 @@ Complete: Make sure Pagination Works
 Post Management
 
 Complete: Get list of posts (Get: /user/{user_id}/post)
-TODO: Pagination
+TODO: Pagination - Might not be possible
 Complete: Add Post (Post: /user/{user_id}/post)
 Complete: View single post (Get: /user/{user_id}/post/{post_id})
 Complete: Delete a post (Delete: /user/{user_id}/post/{post_id})
 Complete: Update a post (Patch: /user/{user_id}/post/{post_id})
-TODO: Like a post (Post: /user/{user_id}/post/{post_id}/like)
-TODO: Remove a like (Delete: /user/{user_id}/post/{post_id}/like)
+Complete: Like a post (Post: /user/{user_id}/post/{post_id}/like)
+Complete: Remove a like (Delete: /user/{user_id}/post/{post_id}/like)
 
 Extension
 
 TODO: Save post as a draft
+
+Draft functionality
+
+Complete: Save Drafts
+TODO: View Drafts
+TODO: Edit Draft
+TODO: Post Draft
+TODO: Delete Draft
+
+Schedule functionality
+
 TODO: Schedule draft posts
 
 -->

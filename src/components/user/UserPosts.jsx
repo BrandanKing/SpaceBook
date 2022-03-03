@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList } from 'native-base';
+import { FlatList, Heading } from 'native-base';
 import { getPosts } from 'services/userService';
 import { toastError } from 'utils/toastUtil';
 import Post from 'components/layout/Post';
+import AnimatedSpinner from 'components/animation/AnimatedSpinner';
 
 const UserPosts = ({ id, updatePosts, updatePostsState, ...props }) => {
 	const [posts, setPosts] = useState([]); // Create a blank state to refresh posts
+	const [isSearching, setIsSearching] = useState(false);
 
 	const onMount = async () => {
 		try {
@@ -14,6 +16,7 @@ const UserPosts = ({ id, updatePosts, updatePostsState, ...props }) => {
 		} catch (error) {
 			toastError(error);
 		}
+		setIsSearching(true);
 	};
 
 	useEffect(() => {
@@ -23,13 +26,24 @@ const UserPosts = ({ id, updatePosts, updatePostsState, ...props }) => {
 	useEffect(() => {
 		onMount();
 	}, [updatePosts]);
+	if (!isSearching) return <></>;
 
 	return (
-		<FlatList
-			data={posts}
-			renderItem={(item) => <Post {...item} id={id} updatePostsState={updatePostsState} />}
-			keyExtractor={(item) => item.post_id.toString()}
-		/>
+		<>
+			{posts.length > 0 ? (
+				<FlatList
+					data={posts}
+					renderItem={(item) => (
+						<Post {...item} id={id} updatePostsState={updatePostsState} />
+					)}
+					keyExtractor={(item) => item.post_id.toString()}
+				/>
+			) : (
+				<Heading mt={2} fontSize='lg'>
+					No Posts Found
+				</Heading>
+			)}
+		</>
 	);
 };
 
