@@ -3,7 +3,7 @@ import { Skeleton, Avatar } from 'native-base';
 import { getProfilePicture } from 'services/userService';
 import { toastError } from 'utils/toastUtil';
 
-const ProfilePicture = ({ id, ...props }) => {
+const ProfilePicture = ({ id, pic_updated, ...props }) => {
 	const [profilePic, setProfilePic] = useState(null);
 
 	const onMount = async () => {
@@ -19,6 +19,10 @@ const ProfilePicture = ({ id, ...props }) => {
 	useEffect(() => {
 		onMount();
 	}, []);
+
+	useEffect(() => {
+		onMount();
+	}, [pic_updated]);
 
 	return (
 		<Skeleton {...props} isLoaded={profilePic}>

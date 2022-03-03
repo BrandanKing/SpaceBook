@@ -16,7 +16,7 @@ Complete: Logout (/logout)
 Complete: Get user information (Post: /user/{user_id})
 Complete: Update user information (Patch: /user/{user_id})
 Complete: Get Profile Picture (Get: /user/{user_id}/photo)
-TODO: Update Profile Picture (Post: /user/{user_id}/photo)
+Complete: Update Profile Picture (Post: /user/{user_id}/photo)
 
 Friend Management
 
@@ -26,6 +26,8 @@ Complete: Get friend requests (/friendrequests)
 Complete: Accept friend request (Post: /friendrequests/{user_id})
 Complete: Reject friend request (Delete: /friendrequests/{user_id})
 Complete: Find friends (/search)
+TODO: Search Friends List
+TODO: Make sure Pagination Works
 
 Post Management
 

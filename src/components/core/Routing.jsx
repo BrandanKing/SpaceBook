@@ -29,30 +29,28 @@ const Routing = () => {
 					tabBar={(props) => <Nav {...props} />}
 					screenOptions={{
 						header,
-					}}>
+					}}
+				>
 					<Stack.Screen
-						name='Account'
+						name="Account"
 						component={AccountScreen}
 						initialParams={authUser && { user_id: authUser.id }}
 						options={{
 							title: 'SpaceBook',
 						}}
 					/>
-					<Stack.Screen
-						name='Friends'
-						component={FriendsListScreen}
-						initialParams={authUser && { user_id: authUser.id }}
-					/>
-					<Stack.Screen name='Friend Requests' component={FriendRequestScreen} />
-					<Stack.Screen name='Search' component={SearchScreen} />
+					<Stack.Screen name="Friends" component={FriendsListScreen} initialParams={authUser && { user_id: authUser.id }} />
+					<Stack.Screen name="Friend Requests" component={FriendRequestScreen} />
+					<Stack.Screen name="Search" component={SearchScreen} />
 				</Stack.Navigator>
 			) : (
 				<Stack.Navigator
 					screenOptions={{
 						headerShown: false,
-					}}>
-					<Stack.Screen name='Login' component={LoginScreen} />
-					<Stack.Screen name='Register' component={RegisterScreen} />
+					}}
+				>
+					<Stack.Screen name="Login" component={LoginScreen} />
+					<Stack.Screen name="Register" component={RegisterScreen} />
 				</Stack.Navigator>
 			)}
 			<Toast config={toastConfig} />

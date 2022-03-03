@@ -71,9 +71,9 @@ function useProvideAuth() {
 
 		await authService.logout();
 
+		setIsAuthenticated(false);
 		setAuthUser(null);
 		setIsAuthLoading(false);
-		setIsAuthenticated(false);
 
 		return true;
 	}

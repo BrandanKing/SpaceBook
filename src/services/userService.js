@@ -17,18 +17,30 @@ export async function getProfilePicture(id) {
 	}
 }
 
+export async function updateProfilePicture(id, data) {
+	try {
+		const { token } = await authService.getUserFromAsyncStorage();
+		const response = await httpService.post(`http://localhost:3333/api/1.0.0/user/${id}/photo`, data, {
+			headers: {
+				'Content-Type': 'image/png',
+				'X-Authorization': token,
+			},
+		});
+		return response;
+	} catch (error) {
+		console.log('HTTP error:', error);
+		throw error.responseMessage;
+	}
+}
+
 export async function addFriend(user_id) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
-		const response = await httpService.post(
-			`http://localhost:3333/api/1.0.0/user/${user_id}/friends`,
-			null,
-			{
-				headers: {
-					'X-Authorization': token,
-				},
-			}
-		);
+		const response = await httpService.post(`http://localhost:3333/api/1.0.0/user/${user_id}/friends`, null, {
+			headers: {
+				'X-Authorization': token,
+			},
+		});
 		return response;
 	} catch (error) {
 		console.log('HTTP error:', error);
@@ -39,14 +51,11 @@ export async function addFriend(user_id) {
 export async function getFriends(id) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
-		const response = await httpService.get(
-			`http://localhost:3333/api/1.0.0/user/${id}/friends`,
-			{
-				headers: {
-					'X-Authorization': token,
-				},
-			}
-		);
+		const response = await httpService.get(`http://localhost:3333/api/1.0.0/user/${id}/friends`, {
+			headers: {
+				'X-Authorization': token,
+			},
+		});
 		return response;
 	} catch (error) {
 		console.log('HTTP error:', error);
@@ -72,15 +81,11 @@ export async function getFriendRequests() {
 export async function acceptFriendRequest(user_id) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
-		const response = await httpService.post(
-			`http://localhost:3333/api/1.0.0/friendrequests/${user_id}`,
-			null,
-			{
-				headers: {
-					'X-Authorization': token,
-				},
-			}
-		);
+		const response = await httpService.post(`http://localhost:3333/api/1.0.0/friendrequests/${user_id}`, null, {
+			headers: {
+				'X-Authorization': token,
+			},
+		});
 		return response;
 	} catch (error) {
 		console.log('HTTP error:', error);
@@ -91,14 +96,11 @@ export async function acceptFriendRequest(user_id) {
 export async function rejectFriendRequest(user_id) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
-		const response = await httpService.del(
-			`http://localhost:3333/api/1.0.0/friendrequests/${user_id}`,
-			{
-				headers: {
-					'X-Authorization': token,
-				},
-			}
-		);
+		const response = await httpService.del(`http://localhost:3333/api/1.0.0/friendrequests/${user_id}`, {
+			headers: {
+				'X-Authorization': token,
+			},
+		});
 		return response;
 	} catch (error) {
 		console.log('HTTP error:', error);
@@ -144,6 +146,7 @@ export async function search(query, searchIn = 'all', limit = 10, offset = 0) {
 
 export default {
 	getProfilePicture,
+	updateProfilePicture,
 	getFriends,
 	addFriend,
 	getFriendRequests,
