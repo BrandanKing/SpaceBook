@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList, Heading } from 'native-base';
-import { getPosts } from 'services/userService';
-import { toastError } from 'utils/toastUtil';
-import Post from 'components/layout/Post';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
+import React, { useState, useEffect } from "react";
+import { FlatList, Heading } from "native-base";
+import { getPosts } from "services/userService";
+import { toastError } from "utils/toastUtil";
+import Post from "components/layout/Post";
 
-const UserPosts = ({ id, updatePosts, updatePostsState, ...props }) => {
+const UserPosts = ({ id, updatePosts, updatePostsState }) => {
 	const [posts, setPosts] = useState([]); // Create a blank state to refresh posts
 	const [isSearching, setIsSearching] = useState(false);
 
@@ -39,7 +38,7 @@ const UserPosts = ({ id, updatePosts, updatePostsState, ...props }) => {
 					keyExtractor={(item) => item.post_id.toString()}
 				/>
 			) : (
-				<Heading mt={2} fontSize='lg'>
+				<Heading mt={2} fontSize="lg">
 					No Posts Found
 				</Heading>
 			)}

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, Skeleton } from 'native-base';
+import React, { useEffect, useState } from "react";
+import { Avatar, Skeleton } from "native-base";
 
-import { getProfilePicture } from 'services/userService';
-import { toastError } from 'utils/toastUtil';
+import { getProfilePicture } from "services/userService";
+import { toastError } from "utils/toastUtil";
 
 const ProfilePicture = ({ id, pic_updated, ...props }) => {
 	const [profilePic, setProfilePic] = useState(null);

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 
-import { Button, FormControl, Input, Modal, VStack } from 'native-base';
+import { Button, FormControl, Input, Modal, VStack } from "native-base";
 
-import { useAuth } from 'hooks/useAuth';
+import { useAuth } from "hooks/useAuth";
 
-const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {
+const UpdateProfile = ({ showEditUser, onClose, user, onSave }) => {
 	const { updateUser } = useAuth();
 	const { control, handleSubmit, formState, reset } = useForm({
 		defaultValues: user,
@@ -32,30 +32,30 @@ const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {
 			isOpen={showEditUser}
 			onClose={() => onClose(false)}
 			avoidKeyboard={true}
-			animationPreset='slide'>
-			<Modal.Content w='90%'>
+			animationPreset="slide">
+			<Modal.Content w="90%">
 				<Modal.CloseButton />
 				<Modal.Header>Edit Profile</Modal.Header>
 				<Modal.Body>
-					<VStack space={4} alignItems='center' w='100%'>
-						<FormControl isRequired isInvalid={'first_name' in errors}>
+					<VStack space={4} alignItems="center" w="100%">
+						<FormControl isRequired isInvalid={"first_name" in errors}>
 							<FormControl.Label>First Name</FormControl.Label>
 							<Controller
 								control={control}
 								render={({ field: { onChange, onBlur, value } }) => (
 									<Input
-										placeholder='Enter first name'
+										placeholder="Enter first name"
 										onChangeText={onChange}
 										onBlur={onBlur}
 										value={value}
 									/>
 								)}
-								name='first_name'
+								name="first_name"
 								rules={{
-									required: 'Please enter your first name',
+									required: "Please enter your first name",
 									pattern: {
 										value: /^[a-zA-Z]+$/,
-										message: 'Please enter a valid first name',
+										message: "Please enter a valid first name",
 									},
 								}}
 							/>
@@ -63,24 +63,24 @@ const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {
 								{errors.first_name?.message}
 							</FormControl.ErrorMessage>
 						</FormControl>
-						<FormControl isRequired isInvalid={'last_name' in errors}>
+						<FormControl isRequired isInvalid={"last_name" in errors}>
 							<FormControl.Label>Last Name</FormControl.Label>
 							<Controller
 								control={control}
 								render={({ field: { onChange, onBlur, value } }) => (
 									<Input
-										placeholder='Enter last name'
+										placeholder="Enter last name"
 										onChangeText={onChange}
 										onBlur={onBlur}
 										value={value}
 									/>
 								)}
-								name='last_name'
+								name="last_name"
 								rules={{
-									required: 'Please enter your last name',
+									required: "Please enter your last name",
 									pattern: {
 										value: /^[a-zA-Z]+$/,
-										message: 'Please enter a valid last name',
+										message: "Please enter a valid last name",
 									},
 								}}
 							/>
@@ -88,24 +88,24 @@ const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {
 								{errors.last_name?.message}
 							</FormControl.ErrorMessage>
 						</FormControl>
-						<FormControl isRequired isInvalid={'email' in errors}>
+						<FormControl isRequired isInvalid={"email" in errors}>
 							<FormControl.Label>Email Address</FormControl.Label>
 							<Controller
 								control={control}
 								render={({ field: { onChange, onBlur, value } }) => (
 									<Input
-										placeholder='Enter email address'
+										placeholder="Enter email address"
 										onChangeText={onChange}
 										onBlur={onBlur}
 										value={value}
 									/>
 								)}
-								name='email'
+								name="email"
 								rules={{
-									required: 'Please enter your email',
+									required: "Please enter your email",
 									pattern: {
 										value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-										message: 'Invalid email address',
+										message: "Invalid email address",
 									},
 								}}
 							/>
@@ -118,8 +118,8 @@ const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {
 				<Modal.Footer>
 					<Button.Group space={2}>
 						<Button
-							variant='ghost'
-							colorScheme='blueGray'
+							variant="ghost"
+							colorScheme="blueGray"
 							onPress={() => onClose(false)}>
 							Close
 						</Button>
@@ -127,7 +127,7 @@ const UpdateProfile = ({ showEditUser, onClose, user, onSave, ...props }) => {
 							onPress={handleSubmit(onSubmit)}
 							isDisabled={!isDirty}
 							isLoading={isSubmitting}
-							isLoadingText='Updating'>
+							isLoadingText="Updating">
 							Update
 						</Button>
 					</Button.Group>

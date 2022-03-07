@@ -1,23 +1,23 @@
-import React from 'react';
-import Toast from 'react-native-toast-message';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from "react";
+import Toast from "react-native-toast-message";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import { useAuth } from 'hooks/useAuth';
-import { toastConfig } from 'utils/toastUtil';
+import { useAuth } from "hooks/useAuth";
+import { toastConfig } from "utils/toastUtil";
 
-import Header from 'components/core/Header';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
+import Header from "components/core/Header";
+import AnimatedSpinner from "components/animation/AnimatedSpinner";
 
-import LoginScreen from 'screens/auth/LoginScreen';
-import RegisterScreen from 'screens/auth/RegisterScreen';
+import LoginScreen from "screens/auth/LoginScreen";
+import RegisterScreen from "screens/auth/RegisterScreen";
 
-import AccountScreen from 'screens/user/AccountScreen';
-import FriendsListScreen from 'screens/friends/FriendsListScreen';
-import FriendRequestScreen from 'screens/friends/FriendRequestScreen';
-import SearchScreen from 'screens/search/SearchScreen';
-import EditPostScreen from 'screens/user/EditPostScreen';
-import DraftScreen from 'screens/user/DraftScreen';
+import AccountScreen from "screens/user/AccountScreen";
+import FriendsListScreen from "screens/friends/FriendsListScreen";
+import FriendRequestScreen from "screens/friends/FriendRequestScreen";
+import SearchScreen from "screens/search/SearchScreen";
+import EditPostScreen from "screens/user/EditPostScreen";
+import DraftScreen from "screens/user/DraftScreen";
 
 const Stack = createStackNavigator();
 
@@ -31,35 +31,34 @@ const Routing = () => {
 			{isAuthenticated ? (
 				<Stack.Navigator
 					//initialRouteName='Drafts'
-					tabBar={(props) => <Nav {...props} />}
 					screenOptions={{
 						header,
 					}}>
 					<Stack.Screen
-						name='Account'
+						name="Account"
 						component={AccountScreen}
 						initialParams={authUser && { user_id: authUser.id }}
 						options={{
-							title: 'SpaceBook',
+							title: "SpaceBook",
 						}}
 					/>
 					<Stack.Screen
-						name='Friends'
+						name="Friends"
 						component={FriendsListScreen}
 						initialParams={authUser && { user_id: authUser.id }}
 					/>
-					<Stack.Screen name='Friend Requests' component={FriendRequestScreen} />
-					<Stack.Screen name='Search' component={SearchScreen} />
-					<Stack.Screen name='Edit Post' component={EditPostScreen} />
-					<Stack.Screen name='Drafts' component={DraftScreen} />
+					<Stack.Screen name="Friend Requests" component={FriendRequestScreen} />
+					<Stack.Screen name="Search" component={SearchScreen} />
+					<Stack.Screen name="Edit Post" component={EditPostScreen} />
+					<Stack.Screen name="Drafts" component={DraftScreen} />
 				</Stack.Navigator>
 			) : (
 				<Stack.Navigator
 					screenOptions={{
 						headerShown: false,
 					}}>
-					<Stack.Screen name='Login' component={LoginScreen} />
-					<Stack.Screen name='Register' component={RegisterScreen} />
+					<Stack.Screen name="Login" component={LoginScreen} />
+					<Stack.Screen name="Register" component={RegisterScreen} />
 				</Stack.Navigator>
 			)}
 			<Toast config={toastConfig} />

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Button, TextArea, FormControl, Container } from 'native-base';
-import { Controller, useForm } from 'react-hook-form';
-import { getPost, deletePost, updatePost } from 'services/userService';
-import { toastError, toastSuccess } from 'utils/toastUtil';
-import { useAuth } from 'hooks/useAuth';
+import React, { useEffect, useState } from "react";
+import { Button, TextArea, FormControl, Container } from "native-base";
+import { Controller, useForm } from "react-hook-form";
+import { getPost, deletePost, updatePost } from "services/userService";
+import { toastError, toastSuccess } from "utils/toastUtil";
+import { useAuth } from "hooks/useAuth";
 
-import Body from 'components/layout/Body';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
+import Body from "components/layout/Body";
+import AnimatedSpinner from "components/animation/AnimatedSpinner";
 
 const EditPostScreen = ({ navigation, route }) => {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -19,7 +19,7 @@ const EditPostScreen = ({ navigation, route }) => {
 	const onSubmit = async (data) => {
 		try {
 			await updatePost(authUser.id, post_id, data);
-			toastSuccess('Post Updated');
+			toastSuccess("Post Updated");
 			reset(data);
 		} catch (error) {
 			toastError(error);
@@ -39,7 +39,7 @@ const EditPostScreen = ({ navigation, route }) => {
 	const removePost = async () => {
 		try {
 			await deletePost(authUser.id, post_id);
-			toastSuccess('Post Deleted');
+			toastSuccess("Post Deleted");
 			navigation.goBack();
 		} catch (error) {
 			toastError(error);
@@ -55,38 +55,38 @@ const EditPostScreen = ({ navigation, route }) => {
 	return (
 		<Body>
 			<Container mt={4}>
-				<FormControl isRequired isInvalid={'text' in errors}>
+				<FormControl isRequired isInvalid={"text" in errors}>
 					<Controller
 						control={control}
 						render={({ field: { onChange, onBlur, value } }) => (
 							<TextArea
-								placeholder='Enter Message'
-								w='100%'
+								placeholder="Enter Message"
+								w="100%"
 								totalLines={2}
 								onChangeText={onChange}
 								onBlur={onBlur}
 								value={value}
 							/>
 						)}
-						name='text'
+						name="text"
 						rules={{
-							required: 'Cannot submit a blank post',
+							required: "Cannot submit a blank post",
 						}}
 					/>
 					<FormControl.ErrorMessage>{errors.text?.message}</FormControl.ErrorMessage>
 				</FormControl>
 				<Button.Group mt={3} isAttached>
-					<Button onPress={removePost} colorScheme='danger' py={1.5}>
+					<Button onPress={removePost} colorScheme="danger" py={1.5}>
 						Delete
 					</Button>
 					<Button
-						colorScheme='darkBlue'
-						_text={{ color: 'white' }}
+						colorScheme="darkBlue"
+						_text={{ color: "white" }}
 						py={1.5}
 						onPress={handleSubmit(onSubmit)}
 						isDisabled={!isDirty}
 						isLoading={isSubmitting}
-						isLoadingText='Updating'>
+						isLoadingText="Updating">
 						Post
 					</Button>
 				</Button.Group>

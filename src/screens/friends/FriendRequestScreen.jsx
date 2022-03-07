@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { FlatList, Container, Heading, Button } from 'native-base';
+import { FlatList, Container, Heading, Button } from "native-base";
 
-import { toastError } from 'utils/toastUtil';
-import { getFriendRequests } from 'services/userService';
+import { toastError } from "utils/toastUtil";
+import { getFriendRequests } from "services/userService";
 
-import Body from 'components/layout/Body';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
-import FriendDisplay from 'components/layout/FriendDisplay';
-import AcceptFriend from 'components/user/AcceptFriend';
-import RejectFriend from 'components/user/RejectFriend';
+import Body from "components/layout/Body";
+import AnimatedSpinner from "components/animation/AnimatedSpinner";
+import FriendDisplay from "components/layout/FriendDisplay";
+import AcceptFriend from "components/user/AcceptFriend";
+import RejectFriend from "components/user/RejectFriend";
 
-const FriendRequestScreen = ({ navigation, route }) => {
+const FriendRequestScreen = () => {
 	const [requestList, setRequestList] = useState([]);
 	const [hasSearched, setHasSearched] = useState(false);
 
@@ -40,10 +40,9 @@ const FriendRequestScreen = ({ navigation, route }) => {
 	return (
 		<Body>
 			<Container mt={4}>
-				{console.log(requestList)}
 				{requestList.length > 0 ? (
 					<FlatList
-						w='100%'
+						w="100%"
 						data={requestList}
 						extraData={requestList}
 						renderItem={(item) => (
@@ -54,12 +53,12 @@ const FriendRequestScreen = ({ navigation, route }) => {
 									<Button.Group>
 										<RejectFriend
 											{...item}
-											colorScheme='danger'
+											colorScheme="danger"
 											user={item.item}
 											removeRequest={removeRequest}></RejectFriend>
 										<AcceptFriend
 											{...item}
-											colorScheme='success'
+											colorScheme="success"
 											user={item.item}
 											removeRequest={removeRequest}></AcceptFriend>
 									</Button.Group>

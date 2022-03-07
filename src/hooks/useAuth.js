@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
-import { toastError, toastSuccess } from 'utils/toastUtil';
-import authService from 'services/authService';
+import React, { useState, useEffect, useContext, createContext } from "react";
+import { toastError, toastSuccess } from "utils/toastUtil";
+import authService from "services/authService";
 
 const AuthContext = createContext();
 
@@ -58,10 +58,9 @@ function useProvideAuth() {
 	async function updateUser(data) {
 		try {
 			await authService.updateUser(data);
-			handleSuccess('Account Details Updated');
+			handleSuccess("Account Details Updated");
 			return true;
 		} catch (error) {
-			console.log(error);
 			return handleError(error);
 		}
 	}

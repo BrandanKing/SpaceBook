@@ -1,9 +1,9 @@
-import React from 'react';
-import { Button, Icon } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
+import React from "react";
+import { Button, Icon } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { toastError, toastSuccess } from 'utils/toastUtil';
-import { addFriend } from 'services/userService';
+import { toastError, toastSuccess } from "utils/toastUtil";
+import { addFriend } from "services/userService";
 
 const AddFriend = ({ user, ...props }) => {
 	const friendRequest = async () => {
@@ -18,7 +18,7 @@ const AddFriend = ({ user, ...props }) => {
 		<Button
 			{...props}
 			onPress={friendRequest}
-			endIcon={<Icon as={MaterialIcons} name='person-add' size='xs' />}>
+			endIcon={<Icon as={MaterialIcons} name="person-add" size="xs" />}>
 			{props.children}
 		</Button>
 	);

@@ -53,8 +53,6 @@ TODO: Edit Draft
 TODO: Post Draft
 TODO: Delete Draft
 
-Schedule functionality
-
-TODO: Schedule draft posts
+TODO: Add ESLint rather than use ESLint plugin
 
 -->

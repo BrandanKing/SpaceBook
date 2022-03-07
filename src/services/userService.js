@@ -1,12 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { format } from 'date-fns';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { format } from "date-fns";
 
-import authService from 'services/authService';
-import httpService from 'services/httpService';
+import authService from "services/authService";
+import httpService from "services/httpService";
 
 export async function saveDraftPost(draft) {
-	const date = format(new Date(), 'Pp');
-	draft['date'] = date;
+	const date = format(new Date(), "Pp");
+	draft["date"] = date;
 
 	let drafts = await getDraftPost();
 	drafts.push(draft);
@@ -15,11 +15,11 @@ export async function saveDraftPost(draft) {
 		return new Date(b.date) - new Date(a.date);
 	});
 
-	return await AsyncStorage.setItem('@user_drafts', JSON.stringify(drafts));
+	return await AsyncStorage.setItem("@user_drafts", JSON.stringify(drafts));
 }
 
 export async function getDraftPost() {
-	const drafts = await AsyncStorage.getItem('@user_drafts');
+	const drafts = await AsyncStorage.getItem("@user_drafts");
 	return drafts ? JSON.parse(drafts) : [];
 }
 
@@ -27,14 +27,14 @@ export async function getProfilePicture(id) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
 		const response = await httpService.get(`http://localhost:3333/api/1.0.0/user/${id}/photo`, {
-			responseType: 'blob',
+			responseType: "blob",
 			headers: {
-				'X-Authorization': token,
+				"X-Authorization": token,
 			},
 		});
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -47,14 +47,14 @@ export async function updateProfilePicture(id, data) {
 			data,
 			{
 				headers: {
-					'Content-Type': 'image/png',
-					'X-Authorization': token,
+					"Content-Type": "image/png",
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -67,13 +67,13 @@ export async function addFriend(user_id) {
 			null,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -85,13 +85,13 @@ export async function getFriends(id) {
 			`http://localhost:3333/api/1.0.0/user/${id}/friends`,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -101,12 +101,12 @@ export async function getFriendRequests() {
 		const { token } = await authService.getUserFromAsyncStorage();
 		const response = await httpService.get(`http://localhost:3333/api/1.0.0/friendrequests`, {
 			headers: {
-				'X-Authorization': token,
+				"X-Authorization": token,
 			},
 		});
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -119,13 +119,13 @@ export async function acceptFriendRequest(user_id) {
 			null,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -137,13 +137,13 @@ export async function rejectFriendRequest(user_id) {
 			`http://localhost:3333/api/1.0.0/friendrequests/${user_id}`,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -153,22 +153,22 @@ export async function getUser(user_id) {
 		const { token } = await authService.getUserFromAsyncStorage();
 		const user = await httpService.get(`http://localhost:3333/api/1.0.0/user/${user_id}`, {
 			headers: {
-				'X-Authorization': token,
+				"X-Authorization": token,
 			},
 		});
 		return user;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
 
-export async function search(query, searchIn = 'all', limit = 10, offset = 0) {
+export async function search(query, searchIn = "all", limit = 10, offset = 0) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
 		const user = await httpService.get(`http://localhost:3333/api/1.0.0/search`, {
 			headers: {
-				'X-Authorization': token,
+				"X-Authorization": token,
 			},
 			params: {
 				q: query,
@@ -179,7 +179,7 @@ export async function search(query, searchIn = 'all', limit = 10, offset = 0) {
 		});
 		return user;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -192,35 +192,31 @@ export async function addPost(user_id, data) {
 			data,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
 
-export async function getPosts(user_id, limit = 1, offset = 0) {
+export async function getPosts(user_id) {
 	try {
 		const { token } = await authService.getUserFromAsyncStorage();
 		const response = await httpService.get(
 			`http://localhost:3333/api/1.0.0/user/${user_id}/post`,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
-				// params: {
-				// 	limit: limit,
-				// 	offset: offset,
-				// },
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -232,13 +228,13 @@ export async function getPost(user_id, post_id) {
 			`http://localhost:3333/api/1.0.0/user/${user_id}/post/${post_id}`,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -251,13 +247,13 @@ export async function updatePost(user_id, post_id, data) {
 			data,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -269,13 +265,13 @@ export async function deletePost(user_id, post_id) {
 			`http://localhost:3333/api/1.0.0/user/${user_id}/post/${post_id}`,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -288,13 +284,13 @@ export async function addLike(user_id, post_id) {
 			null,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }
@@ -306,13 +302,13 @@ export async function deleteLike(user_id, post_id) {
 			`http://localhost:3333/api/1.0.0/user/${user_id}/post/${post_id}/like`,
 			{
 				headers: {
-					'X-Authorization': token,
+					"X-Authorization": token,
 				},
 			}
 		);
 		return response;
 	} catch (error) {
-		console.log('HTTP error:', error);
+		console.log("HTTP error:", error);
 		throw error.responseMessage;
 	}
 }

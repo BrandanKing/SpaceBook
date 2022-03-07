@@ -1,15 +1,15 @@
-import React from 'react';
-import { Button, Icon } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
+import React from "react";
+import { Button, Icon } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { rejectFriendRequest } from 'services/userService';
-import { toastError } from 'utils/toastUtil';
+import { rejectFriendRequest } from "services/userService";
+import { toastError } from "utils/toastUtil";
 
 const RejectFriend = ({ user, index, children, removeRequest, ...props }) => {
 	const friendRequest = async () => {
 		try {
-			const response = await rejectFriendRequest(user.user_id);
-			toastError('Friend request rejected');
+			await rejectFriendRequest(user.user_id);
+			toastError("Friend request rejected");
 			removeRequest(index);
 		} catch (error) {
 			toastError(error);
@@ -19,7 +19,7 @@ const RejectFriend = ({ user, index, children, removeRequest, ...props }) => {
 		<Button
 			onPress={friendRequest}
 			{...props}
-			endIcon={<Icon as={MaterialIcons} name='person-remove' size='xs' />}>
+			endIcon={<Icon as={MaterialIcons} name="person-remove" size="xs" />}>
 			{children}
 		</Button>
 	);

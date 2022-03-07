@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 async function post(url, data, config = {}) {
 	try {
@@ -48,9 +48,9 @@ async function del(url, config = {}) {
 }
 
 function isInValidResponse(response) {
-	console.log('Axios error:', response);
+	console.log("Axios error:", response);
 	throw {
-		responseType: 'EXCEPTION',
+		responseType: "EXCEPTION",
 		responseMessage: response.data,
 	};
 }

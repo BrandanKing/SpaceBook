@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { Dimensions } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { MaterialIcons } from '@expo/vector-icons';
+import React, { useState } from "react";
+import { Dimensions } from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { Container, FlatList, VStack, Input, Icon, FormControl, Text } from 'native-base';
+import { Container, FlatList, VStack, Input, Icon, FormControl, Text } from "native-base";
 
-import { toastError } from 'utils/toastUtil';
-import { search } from 'services/userService';
+import { toastError } from "utils/toastUtil";
+import { search } from "services/userService";
 
-import Body from 'components/layout/Body';
-import AnimatedSpinner from 'components/animation/AnimatedSpinner';
-import FriendDisplay from 'components/layout/FriendDisplay';
-import AddFriend from 'components/user/AddFriend';
+import Body from "components/layout/Body";
+import AnimatedSpinner from "components/animation/AnimatedSpinner";
+import FriendDisplay from "components/layout/FriendDisplay";
+import AddFriend from "components/user/AddFriend";
 
 const SearchScreen = () => {
 	const searchLimit = 10;
-	const flatListHeight = Dimensions.get('window').height - 100;
-	const [searchQuery, setSearchQuery] = useState('');
+	const flatListHeight = Dimensions.get("window").height - 100;
+	const [searchQuery, setSearchQuery] = useState("");
 	const [searchResults, setSearchResults] = useState([]);
 	const [searchCount, setSearchCount] = useState(0);
 	const { control, handleSubmit, formState } = useForm();
@@ -24,12 +24,12 @@ const SearchScreen = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await search(data.query, 'all', searchLimit);
+			const response = await search(data.query, "all", searchLimit);
 			setSearchQuery(data.query);
 			setSearchResults(response);
 			setSearchCount(1);
 			if (response.length <= 0) {
-				throw 'No results found for ' + data.query;
+				throw "No results found for " + data.query;
 			}
 		} catch (error) {
 			toastError(error);
@@ -40,7 +40,7 @@ const SearchScreen = () => {
 		try {
 			const response = await search(
 				searchQuery,
-				'all',
+				"all",
 				searchLimit,
 				searchLimit * searchCount
 			);
@@ -57,15 +57,15 @@ const SearchScreen = () => {
 		<Body>
 			{isSubmitting && <AnimatedSpinner />}
 			<Container>
-				<VStack space={2} flex={1} w='100%' mt={4}>
-					<FormControl isRequired isInvalid={'query' in errors}>
+				<VStack space={2} flex={1} w="100%" mt={4}>
+					<FormControl isRequired isInvalid={"query" in errors}>
 						<Controller
 							control={control}
-							name='query'
-							defaultValue=''
+							name="query"
+							defaultValue=""
 							render={({ field: { onChange, onBlur, value } }) => (
 								<Input
-									placeholder='Search'
+									placeholder="Search"
 									onChangeText={onChange}
 									onBlur={onBlur}
 									value={value}
@@ -73,7 +73,7 @@ const SearchScreen = () => {
 										<Icon
 											onPress={handleSubmit(onSubmit)}
 											as={MaterialIcons}
-											name='search'
+											name="search"
 											size={5}
 											m={2}
 										/>
@@ -81,26 +81,26 @@ const SearchScreen = () => {
 								/>
 							)}
 							rules={{
-								required: 'Please enter before submitting',
+								required: "Please enter before submitting",
 							}}
 						/>
 						<FormControl.ErrorMessage>{errors.query?.message}</FormControl.ErrorMessage>
 					</FormControl>
 					{searchResults.length > 0 && (
 						<>
-							<Text key='searchResultsTest'>
+							<Text key="searchResultsTest">
 								Search Results for <Text bold>{searchQuery}</Text>
 							</Text>
 							<FlatList
 								maxH={flatListHeight}
-								w='100%'
+								w="100%"
 								data={searchResults}
 								onEndReached={loadMore}
 								renderItem={(item) => (
 									<FriendDisplay
 										{...item}
 										renderedButtons={
-											<AddFriend colorScheme='success' user={item.item}>
+											<AddFriend colorScheme="success" user={item.item}>
 												Add
 											</AddFriend>
 										}
