@@ -10,18 +10,18 @@ import { toastError } from "utils/toastUtil";
 import { useAuth } from "hooks/useAuth";
 
 import Body from "components/layout/Body";
-import AddFriend from "components/user/AddFriend";
+import AddFriend from "components/user/friends/AddFriend";
 import AnimatedSpinner from "components/animation/AnimatedSpinner";
-import ProfilePicture from "components/user/ProfilePicture";
-import UpdateProfile from "components/user/UpdateProfile";
-import UpdateProfilePicture from "components/user/UpdateProfilePicture";
-import UserPostInput from "components/user/UserPostInput";
-import UserPosts from "components/user/UserPosts";
+import ProfilePicture from "components/user/profile/ProfilePicture";
+import UpdateProfile from "components/user/profile/UpdateProfile";
+import UpdateProfilePicture from "components/user/profile/UpdateProfilePicture";
+import CreatePost from "components/user/posts/CreatePost";
+import Posts from "components/user/posts/Posts";
 
 const AccountScreen = ({ navigation, route }) => {
 	const [user, setUser] = useState(null);
 	const [showEditUser, setShowEditUser] = useState(false);
-	const [updatePosts, setUpdatePosts] = useState();
+	const [posts, setPosts] = useState();
 
 	const { authUser } = useAuth();
 	const { user_id } = route.params;
@@ -153,12 +153,8 @@ const AccountScreen = ({ navigation, route }) => {
 						</VStack>
 					</HStack>
 					<VStack space={2} mt={4} w="100%">
-						<UserPostInput id={user_id} updatePostsState={setUpdatePosts} />
-						<UserPosts
-							id={user_id}
-							updatePosts={updatePosts}
-							updatePostsState={setUpdatePosts}
-						/>
+						<CreatePost user={user} setPosts={setPosts} />
+						<Posts id={user_id} posts={posts} setPosts={setPosts} />
 					</VStack>
 				</Container>
 			</ScrollView>

@@ -86,8 +86,8 @@ const EditPostScreen = ({ navigation, route }) => {
 						onPress={handleSubmit(onSubmit)}
 						isDisabled={!isDirty}
 						isLoading={isSubmitting}
-						isLoadingText="Updating">
-						Post
+						isLoadingText="Saving">
+						Save
 					</Button>
 				</Button.Group>
 			</Container>

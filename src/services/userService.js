@@ -4,23 +4,36 @@ import { format } from "date-fns";
 import authService from "services/authService";
 import httpService from "services/httpService";
 
-export async function saveDraftPost(draft) {
+async function saveDrafts(drafts) {
+	await AsyncStorage.setItem("@user_drafts", JSON.stringify(drafts));
+	return true;
+}
+
+export async function saveDraft(draft) {
 	const date = format(new Date(), "Pp");
 	draft["date"] = date;
 
-	let drafts = await getDraftPost();
-	drafts.push(draft);
-
-	drafts.sort(function (a, b) {
-		return new Date(b.date) - new Date(a.date);
-	});
-
-	return await AsyncStorage.setItem("@user_drafts", JSON.stringify(drafts));
+	let drafts = await getDrafts();
+	drafts.unshift(draft);
+	return saveDrafts(drafts);
 }
 
-export async function getDraftPost() {
+export async function getDrafts() {
 	const drafts = await AsyncStorage.getItem("@user_drafts");
 	return drafts ? JSON.parse(drafts) : [];
+}
+
+export async function updateDraft({ text }, draftIndex) {
+	const drafts = await getDrafts();
+	drafts[draftIndex].text = text;
+
+	return saveDrafts(drafts);
+}
+
+export async function deleteDraft(draftIndex) {
+	const drafts = await getDrafts();
+	drafts.splice(draftIndex, 1);
+	return saveDrafts(drafts);
 }
 
 export async function getProfilePicture(id) {
@@ -291,7 +304,9 @@ export async function addLike(user_id, post_id) {
 		return response;
 	} catch (error) {
 		console.log("HTTP error:", error);
-		throw error.responseMessage;
+		throw error.responseMessage === "Bad Request"
+			? "You have already liked this post"
+			: error.responseMessage;
 	}
 }
 
@@ -334,6 +349,8 @@ export default {
 	deleteLike,
 
 	// Draft
-	saveDraftPost,
-	getDraftPost,
+	saveDraft,
+	getDrafts,
+	updateDraft,
+	deleteDraft,
 };

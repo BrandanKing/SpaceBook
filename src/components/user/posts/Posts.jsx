@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { FlatList, Heading } from "native-base";
 import { getPosts } from "services/userService";
 import { toastError } from "utils/toastUtil";
-import Post from "components/layout/Post";
+import Post from "components/user/posts/Post";
 
-const UserPosts = ({ id, updatePosts, updatePostsState }) => {
-	const [posts, setPosts] = useState([]); // Create a blank state to refresh posts
+const Posts = ({ id, posts, setPosts }) => {
+	const [currentPosts, setCurrentPosts] = useState([]); // Create a blank state to refresh posts
 	const [isSearching, setIsSearching] = useState(false);
 
 	const onMount = async () => {
 		try {
 			const response = await getPosts(id);
-			setPosts(response);
+			setCurrentPosts(response);
 		} catch (error) {
 			toastError(error);
 		}
@@ -24,17 +24,16 @@ const UserPosts = ({ id, updatePosts, updatePostsState }) => {
 
 	useEffect(() => {
 		onMount();
-	}, [updatePosts]);
+	}, [posts]);
+
 	if (!isSearching) return <></>;
 
 	return (
 		<>
-			{posts.length > 0 ? (
+			{currentPosts.length > 0 ? (
 				<FlatList
-					data={posts}
-					renderItem={(item) => (
-						<Post {...item} id={id} updatePostsState={updatePostsState} />
-					)}
+					data={currentPosts}
+					renderItem={(item) => <Post {...item} id={id} setPosts={setPosts} />}
 					keyExtractor={(item) => item.post_id.toString()}
 				/>
 			) : (
@@ -46,4 +45,4 @@ const UserPosts = ({ id, updatePosts, updatePostsState }) => {
 	);
 };
 
-export default UserPosts;
+export default Posts;

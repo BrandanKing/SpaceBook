@@ -7,9 +7,9 @@ import { getFriendRequests } from "services/userService";
 
 import Body from "components/layout/Body";
 import AnimatedSpinner from "components/animation/AnimatedSpinner";
-import FriendDisplay from "components/layout/FriendDisplay";
-import AcceptFriend from "components/user/AcceptFriend";
-import RejectFriend from "components/user/RejectFriend";
+import Friend from "components/user/friends/Friend";
+import AcceptFriend from "components/user/friends/AcceptFriend";
+import RejectFriend from "components/user/friends/RejectFriend";
 
 const FriendRequestScreen = () => {
 	const [requestList, setRequestList] = useState([]);
@@ -46,7 +46,7 @@ const FriendRequestScreen = () => {
 						data={requestList}
 						extraData={requestList}
 						renderItem={(item) => (
-							<FriendDisplay
+							<Friend
 								{...item}
 								requests={true}
 								renderedButtons={

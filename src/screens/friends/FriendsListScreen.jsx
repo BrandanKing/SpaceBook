@@ -8,7 +8,7 @@ import { getFriends, search } from "services/userService";
 
 import Body from "components/layout/Body";
 import AnimatedSpinner from "components/animation/AnimatedSpinner";
-import FriendDisplay from "components/layout/FriendDisplay";
+import Friend from "components/user/friends/Friend";
 
 const FriendsListScreen = ({ route }) => {
 	const { user_id } = route.params;
@@ -88,7 +88,7 @@ const FriendsListScreen = ({ route }) => {
 					<FlatList
 						w="100%"
 						data={friendsList}
-						renderItem={(item) => <FriendDisplay {...item} />}
+						renderItem={(item) => <Friend {...item} />}
 						keyExtractor={(item) => item.user_id.toString()}
 					/>
 				) : (

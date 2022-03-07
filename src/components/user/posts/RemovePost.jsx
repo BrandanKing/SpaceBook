@@ -3,12 +3,12 @@ import { cloneElement } from "react";
 import { deletePost } from "services/userService";
 import { toastError, toastSuccess } from "utils/toastUtil";
 
-const RemovePost = ({ id, post_id, children, updatePostsState }) => {
+const RemovePost = ({ id, post_id, children, setPosts }) => {
 	const removePost = async () => {
 		try {
 			await deletePost(id, post_id);
 			toastSuccess("Post Deleted");
-			updatePostsState({});
+			setPosts({});
 		} catch (error) {
 			toastError(error);
 		}

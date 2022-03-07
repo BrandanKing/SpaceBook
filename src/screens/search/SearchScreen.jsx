@@ -10,8 +10,8 @@ import { search } from "services/userService";
 
 import Body from "components/layout/Body";
 import AnimatedSpinner from "components/animation/AnimatedSpinner";
-import FriendDisplay from "components/layout/FriendDisplay";
-import AddFriend from "components/user/AddFriend";
+import Friend from "components/user/friends/Friend";
+import AddFriend from "components/user/friends/AddFriend";
 
 const SearchScreen = () => {
 	const searchLimit = 10;
@@ -97,7 +97,7 @@ const SearchScreen = () => {
 								data={searchResults}
 								onEndReached={loadMore}
 								renderItem={(item) => (
-									<FriendDisplay
+									<Friend
 										{...item}
 										renderedButtons={
 											<AddFriend colorScheme="success" user={item.item}>

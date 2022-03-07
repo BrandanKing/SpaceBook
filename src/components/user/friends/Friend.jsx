@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable, HStack, Text } from "native-base";
-import ProfilePicture from "components/user/ProfilePicture";
+import ProfilePicture from "components/user/profile/ProfilePicture";
 
-const FriendDisplay = ({ item, renderedButtons, requests }) => {
+const Friend = ({ item, renderedButtons, requests }) => {
 	const navigation = useNavigation();
 
 	return (
@@ -40,4 +40,4 @@ const FriendDisplay = ({ item, renderedButtons, requests }) => {
 	);
 };
 
-export default FriendDisplay;
+export default Friend;
