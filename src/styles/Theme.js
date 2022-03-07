@@ -26,7 +26,6 @@ const themeConfig = {
 		body: "OpenSans",
 		mono: "OpenSans",
 	},
-	colors: {},
 	config: {
 		useSystemColorMode: true,
 	},
