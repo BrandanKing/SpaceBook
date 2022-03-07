@@ -14,7 +14,7 @@ import FriendDisplay from 'components/layout/FriendDisplay';
 import AddFriend from 'components/user/AddFriend';
 
 const SearchScreen = () => {
-	const searchLimit = 6;
+	const searchLimit = 10;
 	const flatListHeight = Dimensions.get('window').height - 100;
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState([]);

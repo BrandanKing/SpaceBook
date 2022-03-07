@@ -10,8 +10,6 @@ const RemoveFriend = ({ user }) => {
 
 	const cancelRef = useRef(null);
 
-	// TODO: Make remove friend work
-
 	return (
 		<>
 			<Button

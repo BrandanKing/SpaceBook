@@ -8,7 +8,7 @@ import { acceptFriendRequest } from 'services/userService';
 const AcceptFriend = ({ user, index, children, removeRequest, ...props }) => {
 	const acceptRequest = async () => {
 		try {
-			const response = await acceptFriendRequest(user.user_id);
+			await acceptFriendRequest(user.user_id);
 			toastSuccess('Friend Added');
 			removeRequest(index);
 		} catch (error) {

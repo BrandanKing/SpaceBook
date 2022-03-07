@@ -33,7 +33,7 @@ async function patch(url, data, config = {}) {
 		let response = await axios.patch(url, data, config);
 		return response.data;
 	} catch (error) {
-		return isInValidResponse(error.data);
+		return isInValidResponse(error.response);
 	}
 }
 
@@ -42,7 +42,8 @@ async function del(url, config = {}) {
 		let response = await axios.delete(url, config);
 		return response.data;
 	} catch (error) {
-		return isInValidResponse(error.data);
+		console.log(error.response);
+		return isInValidResponse(error.response);
 	}
 }
 

@@ -33,6 +33,7 @@ Post Management
 
 Complete: Get list of posts (Get: /user/{user_id}/post)
 TODO: Pagination - Might not be possible
+TODO: Can only like friends posts on friends walls
 Complete: Add Post (Post: /user/{user_id}/post)
 Complete: View single post (Get: /user/{user_id}/post/{post_id})
 Complete: Delete a post (Delete: /user/{user_id}/post/{post_id})

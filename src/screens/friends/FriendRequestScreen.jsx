@@ -22,7 +22,6 @@ const FriendRequestScreen = ({ navigation, route }) => {
 	};
 
 	const onMount = async () => {
-		console.log('test');
 		try {
 			const response = await getFriendRequests();
 			setRequestList(response);
