@@ -42,7 +42,6 @@ async function del(url, config = {}) {
 		let response = await axios.delete(url, config);
 		return response.data;
 	} catch (error) {
-		console.log(error.response);
 		return isInValidResponse(error.response);
 	}
 }

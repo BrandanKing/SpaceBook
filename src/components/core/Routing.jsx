@@ -30,7 +30,6 @@ const Routing = () => {
 		<NavigationContainer>
 			{isAuthenticated ? (
 				<Stack.Navigator
-					//initialRouteName="Drafts"
 					screenOptions={{
 						header,
 					}}>
